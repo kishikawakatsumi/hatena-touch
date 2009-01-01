@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta id="viewport" name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>はてな touchヘルプ</title>
+<style>
+body {
+	/*background-color: rgb(197,204,211) !important;*/
+	background-image: url(../images/stripes.png);
+	font-family: Helvetica;
+	margin: 0 0 0 10px;
+	padding: 0;
+	-webkit-user-select: none;
+	-webkit-text-size-adjust: none;
+	}
+	
+	/* header labels. Used to entitle a set of links */
+	h1 {
+		color: rgb(76,86,108);
+		font: bold 18px Helvetica;
+		margin:0;
+		padding:10px;
+		/*text-shadow: rgb(255,255,255) 0 1px 0;*/
+		}
+	
+	/* rounded rectangle'd lists */
+	ul {
+		color: black;
+		background: #fff;
+		border: 1px solid rgb(180,180,180);
+		font: bold 17px Helvetica;
+		font-weight:bold;
+		padding: 0;	   
+		margin: 0 10px 17px 0;
+		-webkit-border-radius: 8px;
+		}
+		
+		li {
+			color: rgb(50,79,133);
+			list-style-type: none;	
+			border-top: 1px solid rgb(180,180,180);
+			padding: 10px 10px 14px 10px;
+			}
+			
+			/* controls the radius bordes */
+			li:first-child {	
+				border-top: 0;
+				-webkit-border-top-left-radius: 8px;
+				-webkit-border-top-right-radius: 8px;
+				}
+				
+			li:last-child {	
+				-webkit-border-bottom-left-radius: 8px;
+				-webkit-border-bottom-right-radius: 8px;
+				}
+				
+				li:hover {
+					background: rgb(51,102,204);
+					}
+				
+		/* main link on lists */
+		ul li a {
+			color: black;
+			text-decoration: none;
+			padding: 10px 10px 10px 10px;
+			margin: -10px;
+			display: block;
+			-webkit-tap-highlight-color:rgba(0,0,0,0);
+			}
+			
+			ul li a.arrow {
+				background-image: url(../images/chevron.png); 
+				background-repeat: no-repeat;
+				background-position: right 15px;
+			}
+			
+			ul li a.field {
+				color: rgb(50,79,133);
+				font: normal 17px Helvetica;
+			}
+			
+			ul li a.arrow small {
+				padding-right: 20px;
+			}
+			
+			
+			ul li a:hover, ul li a:hover small, ul li:hover h3 {
+				color: white;
+			}
+	
+				
+			ul li:last-child a {
+				padding: 10px 10px 14px 10px;
+				margin: -10px -10px -14px -10px;
+				}
+				
+		/* fields list */		
+		ul.fields {
+			
+		}	
+		
+			ul.fields li {
+				font-size: 13px;
+			}
+			
+			
+				ul.fields li h3 {
+					font-size: 13px;
+					text-align: right;
+					width: 25%;
+					margin: 0 5px 0 0;
+					padding: 0;
+					vertical-align: top;
+					white-space: nowrap;
+					webkit-text-overflow: ellipsis;
+					display: inline-block;
+				}
+				
+				ul.fields li a {
+					width: 72.9%;
+					display: inline-block;
+					padding: 0;
+					margin: 0;
+					z-index: 300;
+					}
+					
+					ul.fields li a.arrow {
+						background-position: 105% 9px;
+					}
+					
+					ul.fields li a small {
+						padding-top: 4px;
+					}
+				
+	p {
+		color: rgb(76,86,108);
+		font: 14px Helvetica;
+		/*text-align: center;*/
+		/*text-shadow: white 0 1px 0;*/
+		margin: 0 10px 17px 0;
+		}
+
+</style>
+</head>
+<body>
+<h1>はてな touchとは</h1>
+<p>iPhoneではてなのウェブサービスを簡単に利用できるアプリケーションです。</p>
+<p>はてな touchを使えば次のことが簡単にできます。</p>
+<h1>はてなダイアリー</h1>
+<ul class="fields">
+ <li>新しい記事を投稿する</li>
+ <li>下書きに投稿する</li>
+ <li>既存の記事の閲覧・修正・削除</li>
+ <li>下書きの閲覧・修正・削除</li>
+ <li>はてな記法の入力支援</li>
+</ul>
+<h1>はてなブックマーク</h1>
+<ul class="fields">
+ <li>ホットエントリーの閲覧</li>
+ <li>ブックマークコメントの閲覧</li>
+ <li>Myブックマークの閲覧・修正・削除</li>
+</ul>
+<p>
+ <strong>はてな touch ver. 1.2.0</strong><br />
+ <a href="http://d.hatena.ne.jp/KishikawaKatsumi/">KISHIKAWA Katsumi</a>
+</p>
+</body>
+</html>
