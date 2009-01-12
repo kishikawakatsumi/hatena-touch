@@ -10,3 +10,7 @@ http://d.hatena.ne.jp/KishikawaKatsumi/ (in Japanese)
 
 * License
 The new BSD license
+
+* Third party codes
++ Reachability
+Reachability is copied from Apple's sample code: Reachability.
