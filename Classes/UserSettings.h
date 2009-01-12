@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-#define CURRENT_VERSION 120
+#define CURRENT_VERSION 121
 
 typedef enum {
     UserSettingsImageSizeSmall = 0,
@@ -15,6 +15,7 @@ typedef enum {
 	NSString *password;
 	UserSettingsImageSize imageSize;
 	BOOL useMobileProxy;
+	BOOL shouldAutoRotation;
 }
 
 @property (nonatomic) NSInteger version;
@@ -22,5 +23,6 @@ typedef enum {
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic) UserSettingsImageSize imageSize;
 @property (nonatomic) BOOL useMobileProxy;
+@property (nonatomic) BOOL shouldAutoRotation;
 
 @end

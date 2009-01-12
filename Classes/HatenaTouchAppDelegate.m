@@ -58,8 +58,9 @@ static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
 			newSettings.version = CURRENT_VERSION;
 			newSettings.userName = userSettings.userName;
 			newSettings.password = userSettings.password;
-			newSettings.imageSize = UserSettingsImageSizeMedium;
-			newSettings.useMobileProxy = NO;
+			newSettings.imageSize = userSettings.imageSize;
+			newSettings.useMobileProxy = userSettings.useMobileProxy;
+			newSettings.shouldAutoRotation = YES;
 			self.userSettings = newSettings;
 		}
 	} else {

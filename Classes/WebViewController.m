@@ -215,7 +215,9 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
+	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
+	UserSettings *userSettings = hatenaTouchApp.userSettings;
+	return userSettings.shouldAutoRotation;
 }
 
 - (void)didReceiveMemoryWarning {

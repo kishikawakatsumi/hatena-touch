@@ -40,6 +40,11 @@
 	UISwitch *useMobileProxy = [[cell subviews] objectAtIndex:3]; 
 	userSettings.useMobileProxy = [useMobileProxy isOn];
 	
+	cell = [userSettingView cellForRowAtIndexPath:
+			[NSIndexPath indexPathForRow:1 inSection:3]];
+	UISwitch *shouldAutoRotation = [[cell subviews] objectAtIndex:3]; 
+	userSettings.shouldAutoRotation = [shouldAutoRotation isOn];
+	
 	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
 	hatenaTouchApp.userSettings = userSettings;
 	[hatenaTouchApp saveUserSettings];
@@ -53,7 +58,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 1;
+	if (section == 0 || section == 1 || section == 2) {
+		return 1;
+	} else {
+		return 2;
+	}
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -158,7 +168,7 @@
 		}
 		
 		return cell;
-	} else {
+	} else if (indexPath.section == 3 && indexPath.row == 0) {
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UseMobileProxyCell"];
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UseMobileProxyCell"] autorelease];
@@ -176,6 +186,27 @@
 			UISwitch *useMobileProxy = [[[UISwitch alloc] initWithFrame:CGRectMake(206.0, 9.0, 94.0, 27.0)] autorelease];
 			[useMobileProxy setOn:userSettings.useMobileProxy];
 			[cell addSubview:useMobileProxy];
+		}
+		
+		return cell;
+	} else {
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AutoRotationCell"];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"AutoRotationCell"] autorelease];
+			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+			
+			UILabel *description = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 12.0, 178.0, 21.0)];
+			[cell addSubview:description];
+			
+			[description setAdjustsFontSizeToFitWidth:NO];
+			[description setFont:[UIFont boldSystemFontOfSize:14]];
+			[description setText:NSLocalizedString(@"AutoRotation", nil)];
+			
+			[description release];
+			
+			UISwitch *shouldAutoRotation = [[[UISwitch alloc] initWithFrame:CGRectMake(206.0, 9.0, 94.0, 27.0)] autorelease];
+			[shouldAutoRotation setOn:userSettings.shouldAutoRotation];
+			[cell addSubview:shouldAutoRotation];
 		}
 		
 		return cell;
@@ -197,6 +228,7 @@
 	userSettingView = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 460.0f) style:UITableViewStyleGrouped];
 	[userSettingView setDelegate:self];
 	[userSettingView setDataSource:self];
+	[userSettingView setScrollEnabled:NO];
 	[self setView:userSettingView];
 }
 

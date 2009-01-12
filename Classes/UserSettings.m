@@ -7,6 +7,7 @@
 @synthesize password;
 @synthesize imageSize;
 @synthesize useMobileProxy;
+@synthesize shouldAutoRotation;
 
 - (id)init {
 	if (self = [super init]) {
@@ -15,6 +16,7 @@
 		password = [[NSString alloc] init];
 		imageSize = UserSettingsImageSizeMedium;
 		useMobileProxy = NO;
+		shouldAutoRotation = YES;
 	}
 	return self;
 }
@@ -25,6 +27,7 @@
 	password = [[coder decodeObjectForKey:@"password"] retain];
 	imageSize = [coder decodeIntForKey:@"imageSize"];
 	useMobileProxy = [coder decodeBoolForKey:@"useMobileProxy"];
+	shouldAutoRotation = [coder decodeBoolForKey:@"shouldAutoRotation"];
 	return self;
 }
 
@@ -34,6 +37,7 @@
 	[encoder encodeObject:password forKey:@"password"];
 	[encoder encodeInt:imageSize forKey:@"imageSize"];
 	[encoder encodeBool:useMobileProxy forKey:@"useMobileProxy"];
+	[encoder encodeBool:shouldAutoRotation forKey:@"shouldAutoRotation"];
 }
 
 - (void)dealloc {

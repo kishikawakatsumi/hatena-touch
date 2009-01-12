@@ -132,8 +132,8 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	HatenaTouchAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-	return [NSString stringWithFormat:NSLocalizedString(@"BookmarkOf", nil), [delegate.userSettings userName]];
+	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
+	return [NSString stringWithFormat:NSLocalizedString(@"BookmarkOf", nil), [hatenaTouchApp.userSettings userName]];
 }
 
 #pragma mark <UITableViewDelegate> Methods
