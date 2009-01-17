@@ -1,5 +1,6 @@
 #import "HatenaTouchAppDelegate.h"
 #import "RootViewController.h"
+#import "Reachability.h"
 #import "Debug.h"
 
 @implementation HatenaTouchAppDelegate
@@ -81,6 +82,10 @@ static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	LOG_CURRENT_METHOD;
 	[self loadUserSettings];
+	
+	[[Reachability sharedReachability] setHostName:@"www.hatena.ne.jp/"];
+	[[Reachability sharedReachability] remoteHostStatus];
+	
 	[window addSubview:[navigationController view]];
 	[window makeKeyAndVisible];
 }

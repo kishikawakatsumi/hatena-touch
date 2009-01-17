@@ -4,6 +4,7 @@
 #import "WebViewController.h"
 #import "HatenaTouchAppDelegate.h"
 #import "NSString+XMLExtensions.h"
+#import "Reachability.h"
 #import "Debug.h"
 
 @implementation HotEntryViewController
@@ -88,6 +89,17 @@
 }
 
 - (void)refleshIfNeeded {
+	if ([[Reachability sharedReachability] remoteHostStatus] == NotReachable) {
+		NSBundle *bundle = [NSBundle mainBundle];
+		NSDictionary *infoDictionary = [bundle localizedInfoDictionary];
+		NSString *appName = [[infoDictionary count] ? infoDictionary : [bundle infoDictionary] objectForKey:@"CFBundleDisplayName"];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appName message:NSLocalizedString(@"NotReachable", nil)
+													   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+		return;
+	}
+	
 	if (!hotEntries || !featuredEntries) {
 		[hotEntries removeAllObjects];
 		[featuredEntries removeAllObjects];
