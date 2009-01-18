@@ -11,6 +11,41 @@ http://d.hatena.ne.jp/KishikawaKatsumi/ (in Japanese)
 * License
 The new BSD license
 
-* Third party codes
-+ Reachability
+* 3rd parties
+Reachability
+------------
 Reachability is copied from Apple's sample code: Reachability.
+
+HttpClient
+StringHelper
+-----------------
+Author: Satoshi Nakagawa
+URL: http://d.hatena.ne.jp/Psychs/ (in Japanese)
+License: New BSD
+
+SBJSON
+-----------------
+Author: Stig Brautaset
+
+NSDataAdditions
+-----------------
+Author: Kaliware, LLC.
+
+Base64EncDec
+-----------------
+Author: Takeshi Yamane
+
+Base64
+-----------------
+Author: Scott D. Yelich
+LICENSE: Creative Commons Attribution 3.0
+
+CocoaCryptoHashing
+-----------------
+Author: Denis Defreyne
+        Chris Verwymeren
+
+NSString+XMLExtensions
+-----------------
+Author: Janakiram, WordPress
+        
