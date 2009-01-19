@@ -83,7 +83,7 @@ static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
 	LOG_CURRENT_METHOD;
 	[self loadUserSettings];
 	
-	[[Reachability sharedReachability] setHostName:@"www.hatena.ne.jp/"];
+	[[Reachability sharedReachability] setHostName:@"www.hatena.ne.jp"];
 	[[Reachability sharedReachability] remoteHostStatus];
 	
 	[window addSubview:[navigationController view]];
