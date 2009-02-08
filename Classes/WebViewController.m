@@ -4,6 +4,7 @@
 #import "HUDMessageView.h"
 #import "JSON/JSON.h"
 #import "Debug.h"
+#import <objc/runtime.h>
 
 @implementation WebViewController
 
@@ -12,6 +13,10 @@
 @synthesize forwardButton;
 @synthesize pageURL;
 @synthesize lastPageURL;
+
+static NSObject *webViewcreateWebViewWithRequestIMP(id self, SEL _cmd, NSObject* sender, NSObject* request) {
+	return [sender retain];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -157,8 +162,7 @@
 	backButton.enabled = (webView.canGoBack) ? YES : NO;
     forwardButton.enabled = (webView.canGoForward) ? YES : NO;
 	
-	self.title = [aWebView stringByEvaluatingJavaScriptFromString:
-				  @"try {var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}}catch (e){}; document.title"];
+	self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
 	
 	LOG_CURRENT_METHOD;
 }
@@ -178,6 +182,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[webView setBackgroundColor:[UIColor whiteColor]];
+	Class UIWebViewWebViewDelegate = objc_getClass("UIWebViewWebViewDelegate");
+	class_addMethod(UIWebViewWebViewDelegate, @selector(webView:createWebViewWithRequest:), 
+					(IMP)webViewcreateWebViewWithRequestIMP, "@@:@@");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
