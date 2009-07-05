@@ -1,5 +1,4 @@
 #import "HotEntryViewController.h"
-#import "XMLParser.h"
 #import "FeedParser.h"
 #import "EntryCell.h"
 #import "WebViewController.h"
@@ -23,13 +22,6 @@
 	[hotEntryView setDelegate:nil];
 	[hotEntryView release];
 	[super dealloc];
-}
-
-- (void)loadEntriesWithURL:(NSString *)url entryTag:(NSString *)entryTag 
-					target:(id)object callBack:(SEL)method {
-	XMLParser *parser = [XMLParser alloc];
-	[parser parseXMLAtURL:[NSURL URLWithString:url] entryTag:entryTag target:object callBack:method parseError:nil];
-	[parser release];
 }
 
 - (void)loadHotEntries {

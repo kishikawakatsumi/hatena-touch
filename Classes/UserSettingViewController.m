@@ -6,13 +6,6 @@
 
 @synthesize userSettingView;
 
-- (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
-		;
-	}
-	return self;
-}
-
 - (void)dealloc {
 	[userSettingView setDelegate:nil];
 	[userSettingView release];
@@ -104,25 +97,25 @@
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserNameCell"] autorelease];
 			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 			
-			UITextField *inputField = [[[UITextField alloc] initWithFrame:CGRectMake(20, 0, 282, 44)] autorelease];
-			inputField.delegate = self;
+			[nameField setDelegate:self];
 			
-			[inputField setAdjustsFontSizeToFitWidth:NO];
-			[inputField setBorderStyle:UITextBorderStyleNone];
-			[inputField setClearButtonMode:UITextFieldViewModeAlways];
-			[inputField setClearsOnBeginEditing:NO];
-			[inputField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-			[inputField setAutocorrectionType:UITextAutocorrectionTypeNo];
-			[inputField setEnablesReturnKeyAutomatically:YES];
-			[inputField setReturnKeyType:UIReturnKeyDone];
-			[inputField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-			[inputField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+			[nameField setAdjustsFontSizeToFitWidth:NO];
+			[nameField setBorderStyle:UITextBorderStyleNone];
+			[nameField setClearButtonMode:UITextFieldViewModeAlways];
+			[nameField setClearsOnBeginEditing:NO];
+			[nameField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+			[nameField setAutocorrectionType:UITextAutocorrectionTypeNo];
+			[nameField setEnablesReturnKeyAutomatically:YES];
+			[nameField setReturnKeyType:UIReturnKeyNext];
+			[nameField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+			[nameField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 			
-			[inputField setPlaceholder:NSLocalizedString(@"UserName", nil)];
-			[inputField setKeyboardType:UIKeyboardTypeDefault];
-			[inputField setText:userSettings.userName];
+			[nameField setPlaceholder:NSLocalizedString(@"UserName", nil)];
+			[nameField setKeyboardType:UIKeyboardTypeDefault];
+			[nameField setText:userSettings.userName];
 			
-			[cell addSubview:inputField];
+			[cell addSubview:nameField];
+			[nameField release];
 		}
 		
 		return cell;
@@ -132,26 +125,26 @@
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"PasseordCell"] autorelease];
 			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 			
-			UITextField *inputField = [[[UITextField alloc] initWithFrame:CGRectMake(20, 0, 282, 44)] autorelease];
-			inputField.delegate = self;
+			[passwordField setDelegate:self];
 			
-			[inputField setAdjustsFontSizeToFitWidth:NO];
-			[inputField setBorderStyle:UITextBorderStyleNone];
-			[inputField setClearButtonMode:UITextFieldViewModeAlways];
-			[inputField setClearsOnBeginEditing:NO];
-			[inputField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-			[inputField setAutocorrectionType:UITextAutocorrectionTypeNo];
-			[inputField setEnablesReturnKeyAutomatically:YES];
-			[inputField setReturnKeyType:UIReturnKeyDone];
-			[inputField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-			[inputField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+			[passwordField setAdjustsFontSizeToFitWidth:NO];
+			[passwordField setBorderStyle:UITextBorderStyleNone];
+			[passwordField setClearButtonMode:UITextFieldViewModeAlways];
+			[passwordField setClearsOnBeginEditing:NO];
+			[passwordField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+			[passwordField setAutocorrectionType:UITextAutocorrectionTypeNo];
+			[passwordField setEnablesReturnKeyAutomatically:YES];
+			[passwordField setReturnKeyType:UIReturnKeyDone];
+			[passwordField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+			[passwordField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 			
-			[inputField setPlaceholder:NSLocalizedString(@"Password", nil)];
-			[inputField setKeyboardType:UIKeyboardTypeDefault];
-			[inputField setSecureTextEntry:YES];
-			[inputField setText:userSettings.password];
+			[passwordField setPlaceholder:NSLocalizedString(@"Password", nil)];
+			[passwordField setKeyboardType:UIKeyboardTypeDefault];
+			[passwordField setSecureTextEntry:YES];
+			[passwordField setText:userSettings.password];
 			
-			[cell addSubview:inputField];
+			[cell addSubview:passwordField];
+			[passwordField release];
 		}
 		
 		return cell;
@@ -216,7 +209,13 @@
 #pragma mark <UITextFieldDelegate> Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	[textField resignFirstResponder];
+	if (textField == nameField) {
+		[nameField resignFirstResponder];
+		[passwordField becomeFirstResponder];
+	} else {
+		[textField resignFirstResponder];
+	}
+
 	return YES;
 }
 
@@ -234,15 +233,9 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	nameField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, 282, 44)];
+	passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, 282, 44)];
 	self.title = NSLocalizedString(@"Settings", nil);
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
