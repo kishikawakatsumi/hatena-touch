@@ -1,7 +1,6 @@
 #import "WebViewController.h"
 #import "HatenaTouchAppDelegate.h"
 #import "InformationSheetController.h"
-#import "HUDMessageView.h"
 #import "JSON/JSON.h"
 #import "Debug.h"
 #import <objc/runtime.h>
@@ -70,13 +69,13 @@ static NSObject *webViewcreateWebViewWithRequestIMP(id self, SEL _cmd, NSObject*
 
 - (void)showInfoMenu {
 	isInfoMenuPresent = YES;
-	InformationSheetController *controller = [[[InformationSheetController alloc]
-											   initWithNibName:@"InformationSheet" bundle:nil] autorelease];
+	InformationSheetController *controller = [[InformationSheetController alloc] initWithNibName:@"InformationSheet" bundle:nil];
 	
 	controller.pageInfo = pageInfo;
 	controller.bookmarks = [pageInfo objectForKey:@"bookmarks"];
 	
 	[self presentModalViewController:controller animated:YES];
+	[controller release];
 }
 
 - (void)startLoading {
@@ -229,18 +228,6 @@ static NSObject *webViewcreateWebViewWithRequestIMP(id self, SEL _cmd, NSObject*
 
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
-	
-	[webView stopLoading];
-	
-	BOOL isOnTop = ([self.navigationController topViewController] == self);
-	if (isOnTop) {
-		HUDMessageView *messageView = [[HUDMessageView alloc] initWithMessage:NSLocalizedString(@"MemoryWarning", nil)];
-		[messageView showInView:self.view];
-		[messageView performSelector:@selector(dismiss) withObject:nil afterDelay:2.0f];
-		[messageView release];
-	}
-	
-	LOG_CURRENT_METHOD;
 }
 
 @end

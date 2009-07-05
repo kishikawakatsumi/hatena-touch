@@ -13,6 +13,8 @@
 		14016DC40E823DF800DF1904 /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 14016DC30E823DF800DF1904 /* Camera.png */; };
 		1401729D0E834C9400DF1904 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1401729B0E834C9400DF1904 /* back.png */; };
 		1401729E0E834C9400DF1904 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 1401729C0E834C9400DF1904 /* forward.png */; };
+		1404AFE71001162E00E133B9 /* EntryCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1404AFE61001162E00E133B9 /* EntryCellSelectedBackgroundView.m */; };
+		1404AFFC10011A9100E133B9 /* TableCellDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 1404AFFB10011A9100E133B9 /* TableCellDrawing.m */; };
 		141324520F23CB4100E82250 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413244D0F23CB4100E82250 /* NSObject+SBJSON.m */; };
 		141324530F23CB4100E82250 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413244F0F23CB4100E82250 /* NSString+SBJSON.m */; };
 		141324540F23CB4100E82250 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 141324510F23CB4100E82250 /* SBJSON.m */; };
@@ -69,7 +71,6 @@
 		149B17DF0E77057900E0D2A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 149B17DE0E77057900E0D2A9 /* SystemConfiguration.framework */; };
 		149F5E050EE168A300327D14 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E020EE168A300327D14 /* HttpClient.m */; };
 		149F5E060EE168A300327D14 /* StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E040EE168A300327D14 /* StringHelper.m */; };
-		149F5E210EE16A7200327D14 /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E200EE16A7200327D14 /* HUDMessageView.m */; };
 		149F5E230EE16A9500327D14 /* dialogue.png in Resources */ = {isa = PBXBuildFile; fileRef = 149F5E220EE16A9500327D14 /* dialogue.png */; };
 		14C3FF490F0662CC00B01BB6 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C3FF480F0662CC00B01BB6 /* libxml2.dylib */; };
 		14E8F8760EE6DDF10085F1F4 /* NSString+XMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E8F8750EE6DDF10085F1F4 /* NSString+XMLExtensions.m */; };
@@ -89,6 +90,10 @@
 		14016DC30E823DF800DF1904 /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
 		1401729B0E834C9400DF1904 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		1401729C0E834C9400DF1904 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
+		1404AFE51001162E00E133B9 /* EntryCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryCellSelectedBackgroundView.h; sourceTree = "<group>"; };
+		1404AFE61001162E00E133B9 /* EntryCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryCellSelectedBackgroundView.m; sourceTree = "<group>"; };
+		1404AFFA10011A9100E133B9 /* TableCellDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCellDrawing.h; sourceTree = "<group>"; };
+		1404AFFB10011A9100E133B9 /* TableCellDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCellDrawing.m; sourceTree = "<group>"; };
 		1413244B0F23CB4100E82250 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		1413244C0F23CB4100E82250 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		1413244D0F23CB4100E82250 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -196,8 +201,6 @@
 		149F5E020EE168A300327D14 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		149F5E030EE168A300327D14 /* StringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelper.h; sourceTree = "<group>"; };
 		149F5E040EE168A300327D14 /* StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHelper.m; sourceTree = "<group>"; };
-		149F5E1F0EE16A7200327D14 /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
-		149F5E200EE16A7200327D14 /* HUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDMessageView.m; sourceTree = "<group>"; };
 		149F5E220EE16A9500327D14 /* dialogue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialogue.png; sourceTree = "<group>"; };
 		14C3FF480F0662CC00B01BB6 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		14E8F8740EE6DDF10085F1F4 /* NSString+XMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLExtensions.h"; sourceTree = "<group>"; };
@@ -238,8 +241,6 @@
 				141DE8370E71A0BC00FBA9A5 /* HatenaTouchAppDelegate.m */,
 				141DE8380E71A0BC00FBA9A5 /* RootViewController.h */,
 				141DE8390E71A0BC00FBA9A5 /* RootViewController.m */,
-				149F5E1F0EE16A7200327D14 /* HUDMessageView.h */,
-				149F5E200EE16A7200327D14 /* HUDMessageView.m */,
 				14016AC10EE13DAA00A427D9 /* Debug.h */,
 				141DE92E0E71A3A500FBA9A5 /* Diary */,
 				141DE9540E71A3BF00FBA9A5 /* MyBookmark */,
@@ -356,6 +357,8 @@
 				141DE9660E71A3EF00FBA9A5 /* HotEntryViewController.m */,
 				141DE9690E71A3EF00FBA9A5 /* EntryCell.h */,
 				141DE96A0E71A3EF00FBA9A5 /* EntryCell.m */,
+				1404AFE51001162E00E133B9 /* EntryCellSelectedBackgroundView.h */,
+				1404AFE61001162E00E133B9 /* EntryCellSelectedBackgroundView.m */,
 			);
 			name = HotEntry;
 			sourceTree = "<group>";
@@ -417,6 +420,8 @@
 				141DE9930E71A44300FBA9A5 /* CocoaCryptoHashing.m */,
 				149B17DB0E77053A00E0D2A9 /* Reachability.h */,
 				149B17DC0E77053A00E0D2A9 /* Reachability.m */,
+				1404AFFA10011A9100E133B9 /* TableCellDrawing.h */,
+				1404AFFB10011A9100E133B9 /* TableCellDrawing.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -614,12 +619,13 @@
 				14F416210EA215D30004D334 /* Base64.cpp in Sources */,
 				149F5E050EE168A300327D14 /* HttpClient.m in Sources */,
 				149F5E060EE168A300327D14 /* StringHelper.m in Sources */,
-				149F5E210EE16A7200327D14 /* HUDMessageView.m in Sources */,
 				14E8F8760EE6DDF10085F1F4 /* NSString+XMLExtensions.m in Sources */,
 				141324520F23CB4100E82250 /* NSObject+SBJSON.m in Sources */,
 				141324530F23CB4100E82250 /* NSString+SBJSON.m in Sources */,
 				141324540F23CB4100E82250 /* SBJSON.m in Sources */,
 				146996201000F54A00B155FD /* FeedParser.m in Sources */,
+				1404AFE71001162E00E133B9 /* EntryCellSelectedBackgroundView.m in Sources */,
+				1404AFFC10011A9100E133B9 /* TableCellDrawing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

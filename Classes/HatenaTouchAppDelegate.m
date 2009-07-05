@@ -19,10 +19,6 @@ static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
 	LOG_CURRENT_METHOD;
 	if (!hatenaTouchApp) {
 		hatenaTouchApp = [super init];
-		sharedWebViewController = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
-		sharedWebViewController.view.autoresizesSubviews = YES;
-		sharedWebViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-		sharedPickerController = [[UIImagePickerController alloc] init];
 		listOfRead = [[NSMutableDictionary alloc] init];
 	}
 	return hatenaTouchApp;
@@ -33,6 +29,22 @@ static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
 		hatenaTouchApp = [[HatenaTouchAppDelegate alloc] init];
 	}
 	return hatenaTouchApp;
+}
+
+- (WebViewController *)sharedWebViewController {
+	if (!sharedWebViewController) {
+		sharedWebViewController = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
+		sharedWebViewController.view.autoresizesSubviews = YES;
+		sharedWebViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	}
+	return sharedWebViewController;
+}
+
+- (UIImagePickerController *)sharedPickerController {
+	if (!sharedPickerController) {
+		sharedPickerController = [[UIImagePickerController alloc] init];
+	}
+	return sharedPickerController;
 }
 
 - (NSString *)documentDirectory {

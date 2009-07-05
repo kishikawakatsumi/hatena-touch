@@ -1,13 +1,13 @@
 #import <UIKit/UIKit.h>
 
 @interface PageInformationCell : UITableViewCell {
-	IBOutlet UILabel *commentLabel;
-	IBOutlet UILabel *userLabel;
-	IBOutlet UILabel *numberLabel;
+	NSString *commentText;
+	NSString *userText;
+	NSString *numberText;
 }
 
-@property (nonatomic, retain) UILabel *commentLabel;
-@property (nonatomic, retain) UILabel *userLabel;
-@property (nonatomic, retain) UILabel *numberLabel;
+@property (nonatomic, retain) NSString *commentText;
+@property (nonatomic, retain) NSString *userText;
+@property (nonatomic, retain) NSString *numberText;
 
 @end

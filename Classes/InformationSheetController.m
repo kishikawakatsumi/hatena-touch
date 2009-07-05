@@ -78,26 +78,9 @@
 		}
 		
 		NSString *comment = [NSString decodeXMLCharactersIn:[[bookmarks objectAtIndex:rowNum - 1] objectForKey:@"comment"]];
-		if ([comment length] > 0) {
-			if ([comment length] > 87) {
-				[cell.commentLabel setFont:[UIFont systemFontOfSize:11]];
-			} else {
-				[cell.commentLabel setFont:[UIFont systemFontOfSize:12]];
-			}
-			[cell.commentLabel setHidden:NO];
-			[cell.commentLabel setText:comment];
-			[cell.commentLabel setFrame:CGRectMake(20.0f, 1.0f, 280.0f, 68.0f)];
-			[cell.userLabel setFrame:CGRectMake(20.0f, 69.0f, 280.0f, 20.0f)];
-			[cell.numberLabel setFrame:CGRectMake(0.0f, 35.0f, 16.0f, 21.0f)];
-		} else {
-			[cell.commentLabel setHidden:YES];
-			[cell.commentLabel setFrame:CGRectZero];
-			[cell.userLabel setFrame:CGRectMake(20.0, 1.0, 280.0f, 18.0f)];
-			[cell.numberLabel setFrame:CGRectMake(0.0, 1.0, 16.0, 18.0)];
-		}
-		
-		[cell.userLabel setText:[[bookmarks objectAtIndex:rowNum - 1] objectForKey:@"user"]];
-		[cell.numberLabel setText:[NSString stringWithFormat:@"%d", rowNum]];
+		[cell setCommentText:comment];
+		[cell setUserText:[[bookmarks objectAtIndex:rowNum - 1] objectForKey:@"user"]];
+		[cell setNumberText:[NSString stringWithFormat:@"%d", rowNum]];
 		
 		return cell;
 	}
@@ -125,15 +108,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	id count = [pageInfo objectForKey:@"count"];
-	[[toolBar.items objectAtIndex:0] setTitle:[NSString stringWithFormat:@"%@ users", count ? count : @"0" ]];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+	[[toolBar.items objectAtIndex:0] setTitle:[NSString stringWithFormat:@"%@ users", count ? count : @"0"]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -122,15 +122,11 @@
 	NSDictionary *entry = [self whichEntry:indexPath];
 	
 	NSMutableDictionary *listOfRead = [[HatenaTouchAppDelegate sharedHatenaTouchApp] listOfRead];
-	if ([listOfRead objectForKey:[entry objectForKey:@"link"]]) {
-		[cell.titleLabel setTextColor:[UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:1.0f]];
-	}else {
-		[cell.titleLabel setTextColor:[UIColor colorWithRed:0.0f green:0.2f blue:1.0f alpha:1.0f]];
-	}
+	cell.hasRead = [listOfRead objectForKey:[entry objectForKey:@"link"]] != nil;
 
-	[cell.titleLabel setText:[NSString decodeXMLCharactersIn:[entry objectForKey:@"title"]]];
-	[cell.descriptionLabel setText:[NSString decodeXMLCharactersIn:[entry objectForKey:@"description"]]];
-	[cell.numberLabel setText:[NSString stringWithFormat:@"%d", indexPath.row + 1]];
+	[cell setTitleText:[NSString decodeXMLCharactersIn:[entry objectForKey:@"title"]]];
+	[cell setDescriptionText:[NSString decodeXMLCharactersIn:[entry objectForKey:@"description"]]];
+	[cell setNumberText:[NSString stringWithFormat:@"%d", indexPath.row + 1]];
 	
 	return cell;
 }
