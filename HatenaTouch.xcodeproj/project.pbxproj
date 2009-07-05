@@ -64,6 +64,7 @@
 		141DE99B0E71A44300FBA9A5 /* HatenaAtomPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9950E71A44300FBA9A5 /* HatenaAtomPub.m */; };
 		141DE99C0E71A44300FBA9A5 /* HatenaXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9970E71A44300FBA9A5 /* HatenaXMLParser.m */; };
 		142E33630EB215860078889A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 142E33620EB215860078889A /* Icon.png */; };
+		146996201000F54A00B155FD /* FeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469961F1000F54A00B155FD /* FeedParser.m */; };
 		149B17DD0E77053A00E0D2A9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 149B17DC0E77053A00E0D2A9 /* Reachability.m */; };
 		149B17DF0E77057900E0D2A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 149B17DE0E77057900E0D2A9 /* SystemConfiguration.framework */; };
 		149F5E050EE168A300327D14 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E020EE168A300327D14 /* HttpClient.m */; };
@@ -186,6 +187,8 @@
 		141DE9960E71A44300FBA9A5 /* HatenaXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HatenaXMLParser.h; sourceTree = "<group>"; };
 		141DE9970E71A44300FBA9A5 /* HatenaXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HatenaXMLParser.m; sourceTree = "<group>"; };
 		142E33620EB215860078889A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1469961E1000F54A00B155FD /* FeedParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedParser.h; sourceTree = "<group>"; };
+		1469961F1000F54A00B155FD /* FeedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedParser.m; sourceTree = "<group>"; };
 		149B17DB0E77053A00E0D2A9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		149B17DC0E77053A00E0D2A9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		149B17DE0E77057900E0D2A9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -392,6 +395,8 @@
 			children = (
 				141DE9940E71A44300FBA9A5 /* HatenaAtomPub.h */,
 				141DE9950E71A44300FBA9A5 /* HatenaAtomPub.m */,
+				1469961E1000F54A00B155FD /* FeedParser.h */,
+				1469961F1000F54A00B155FD /* FeedParser.m */,
 				141DE98E0E71A44300FBA9A5 /* XMLParser.h */,
 				141DE98F0E71A44300FBA9A5 /* XMLParser.m */,
 				141DE9960E71A44300FBA9A5 /* HatenaXMLParser.h */,
@@ -480,11 +485,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14C3FF480F0662CC00B01BB6 /* libxml2.dylib */,
-				149B17DE0E77057900E0D2A9 /* SystemConfiguration.framework */,
-				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				149B17DE0E77057900E0D2A9 /* SystemConfiguration.framework */,
+				14C3FF480F0662CC00B01BB6 /* libxml2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 				141324520F23CB4100E82250 /* NSObject+SBJSON.m in Sources */,
 				141324530F23CB4100E82250 /* NSString+SBJSON.m in Sources */,
 				141324540F23CB4100E82250 /* SBJSON.m in Sources */,
+				146996201000F54A00B155FD /* FeedParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,12 +735,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Katsumi Kishikawa";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "079CE7D8-0A89-4399-8239-69BFAD183E10";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "56DD5709-6F51-455B-B301-C65B856A0F8C";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Distribution;
@@ -803,7 +810,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B05E5D1-7972-42FD-A08B-29461C265D73";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F064D1B5-1E56-48D6-B621-293C692A49CE";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
@@ -815,12 +822,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Katsumi Kishikawa";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B05E5D1-7972-42FD-A08B-29461C265D73";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F064D1B5-1E56-48D6-B621-293C692A49CE";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Release;

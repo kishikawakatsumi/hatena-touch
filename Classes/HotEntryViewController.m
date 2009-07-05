@@ -1,5 +1,6 @@
 #import "HotEntryViewController.h"
 #import "XMLParser.h"
+#import "FeedParser.h"
 #import "EntryCell.h"
 #import "WebViewController.h"
 #import "HatenaTouchAppDelegate.h"
@@ -13,13 +14,6 @@
 @synthesize hotEntries;
 @synthesize featuredEntries;
 @synthesize selectedRow;
-
-- (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
-		;
-	}
-	return self;
-}
 
 - (void)dealloc {
 	LOG_CURRENT_METHOD;
@@ -39,42 +33,28 @@
 }
 
 - (void)loadHotEntries {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
-	NSString *url = @"http://b.hatena.ne.jp/hotentry.rss";
-	[self loadEntriesWithURL:url entryTag:@"item" target:self callBack:@selector(addHotEntry:)];
-	[url release];
-	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[pool release];
+	LOG_CURRENT_METHOD;
+	NSString *URL = @"http://b.hatena.ne.jp/hotentry.rss";
+	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]];
+	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addHotEntry:)];
 }
 
 - (void)loadFeaturedEntries {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
-	NSString *url = @"http://b.hatena.ne.jp/entrylist?sort=hot&threshold=&mode=rss";
-	[self loadEntriesWithURL:url entryTag:@"item" target:self callBack:@selector(addFeaturedEntry:)];
-	[url release];
-	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[pool release];
-}
-
-- (void)_loadEntries {
-	[self loadHotEntries];
-	[self loadFeaturedEntries];
+	LOG_CURRENT_METHOD;
+	NSString *URL = @"http://b.hatena.ne.jp/entrylist?sort=hot&threshold=&mode=rss";
+	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]];
+	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addFeaturedEntry:)];
 }
 
 - (void)loadEntries {
 	LOG(@"Hot Entries: refresh data.");
-	[NSThread detachNewThreadSelector:@selector(_loadEntries) toTarget:self withObject:nil];
+	[self loadHotEntries];
+	[self loadFeaturedEntries];
 }
 
 - (void)addHotEntry:(id)entry {
 	if (!hotEntries) {
-		hotEntries = [[NSMutableArray alloc] initWithCapacity:20];
+		hotEntries = [[NSMutableArray alloc] initWithCapacity:30];
 	}
 	[hotEntries addObject:entry];
 	[hotEntryView reloadData];
@@ -82,7 +62,7 @@
 
 - (void)addFeaturedEntry:(id)entry {
 	if (!featuredEntries) {
-		featuredEntries = [[NSMutableArray alloc] initWithCapacity:20];
+		featuredEntries = [[NSMutableArray alloc] initWithCapacity:30];
 	}
 	[featuredEntries addObject:entry];
 	[hotEntryView reloadData];
