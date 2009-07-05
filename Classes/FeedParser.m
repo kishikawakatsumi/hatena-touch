@@ -105,17 +105,16 @@ static xmlSAXHandler _saxHandlerStruct = {
     return self;
 }
 
-+ (void)parseWithRequest:(NSURLRequest *)aRequest callBackObject:(id)target callBack:(SEL)selector {
++ (void)parseWithRequest:(NSURLRequest *)aRequest callBackObject:(id)target callBack:(SEL)selector completeSelector:(SEL)comleteSel {
 	FeedParser *parser = [[FeedParser alloc] initWithRequest:aRequest];
 	parser->callBackObject = [target retain];
 	parser->callBack = selector;
+	parser->completeSelector = comleteSel;
 	[parser start];
 }
 
 - (void)dealloc {
     [request release], request = nil;
-	[conn cancel];
-    [conn release], conn = nil;
 	[channel release], channel = nil;
     [currentCharacters release], currentCharacters = nil;
 	[callBackObject release], callBackObject = nil;
@@ -124,7 +123,6 @@ static xmlSAXHandler _saxHandlerStruct = {
 }
 
 - (void)start {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	parserContext = xmlCreatePushParserCtxt(&_saxHandlerStruct, self, NULL, 0, NULL);
 	[NSURLConnection connectionWithRequest:request delegate:self];
 }
@@ -141,16 +139,18 @@ static xmlSAXHandler _saxHandlerStruct = {
     if (parserContext) {
         xmlFreeParserCtxt(parserContext), parserContext = NULL;
     }
-    conn = nil;
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	[callBackObject performSelectorOnMainThread:completeSelector withObject:nil waitUntilDone:NO];
+	[self release];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     if (parserContext) {
         xmlFreeParserCtxt(parserContext), parserContext = NULL;
     }
-    conn = nil;
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	[callBackObject performSelectorOnMainThread:completeSelector withObject:nil waitUntilDone:NO];
+	[self release];
 }
 
 #pragma mark -- libxml handler --

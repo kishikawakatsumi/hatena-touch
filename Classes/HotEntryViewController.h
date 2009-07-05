@@ -5,6 +5,7 @@
 	NSMutableArray *hotEntries;
 	NSMutableArray *featuredEntries;
 	NSIndexPath *selectedRow;
+	NSUInteger finishCount;
 }
 
 @property (nonatomic, retain) UITableView *hotEntryView;

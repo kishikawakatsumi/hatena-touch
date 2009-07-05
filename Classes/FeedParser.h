@@ -14,8 +14,9 @@
 	
 	id callBackObject;
 	SEL callBack;
+	SEL completeSelector;
 }
 
-+ (void)parseWithRequest:(NSURLRequest *)request callBackObject:(id)target callBack:(SEL)selector;
++ (void)parseWithRequest:(NSURLRequest *)aRequest callBackObject:(id)target callBack:(SEL)selector completeSelector:(SEL)comleteSel;
 
 @end

@@ -36,18 +36,26 @@
 	LOG_CURRENT_METHOD;
 	NSString *URL = @"http://b.hatena.ne.jp/hotentry.rss";
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]];
-	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addHotEntry:)];
+	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addHotEntry:) completeSelector:@selector(finishLoading)];
 }
 
 - (void)loadFeaturedEntries {
 	LOG_CURRENT_METHOD;
 	NSString *URL = @"http://b.hatena.ne.jp/entrylist?sort=hot&threshold=&mode=rss";
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]];
-	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addFeaturedEntry:)];
+	[FeedParser parseWithRequest:request callBackObject:self callBack:@selector(addFeaturedEntry:) completeSelector:@selector(finishLoading)];
+}
+
+- (void)finishLoading {
+	finishCount++;
+	if (finishCount == 2) {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	}
 }
 
 - (void)loadEntries {
 	LOG(@"Hot Entries: refresh data.");
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[self loadHotEntries];
 	[self loadFeaturedEntries];
 }
@@ -180,10 +188,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self refleshIfNeeded];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
