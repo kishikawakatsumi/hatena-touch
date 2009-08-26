@@ -41,16 +41,15 @@ static NSObject *webViewcreateWebViewWithRequestIMP(id self, SEL _cmd, NSObject*
 - (void)_loadPageInfo {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	NSURL *webServiceURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://b.hatena.ne.jp/entry/json/%@", pageURL]];
+	NSURL *webServiceURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://b.hatena.ne.jp/entry/jsonlite/%@", pageURL]];
 	NSURLRequest *req = [NSURLRequest requestWithURL:webServiceURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:30];
 	
 	NSData *data;
 	NSHTTPURLResponse *res;
 	NSError *error;
 	data = [NSURLConnection sendSynchronousRequest:req returningResponse:&res error:&error];
-	
-	NSString *temp = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-	NSString *json = [[temp substringFromIndex:1] substringToIndex:[temp length] -2];
+
+	NSString *json = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 	pageInfo = [[json JSONValue] retain];
 	
 	[[[self navigationItem] rightBarButtonItem] setEnabled:YES];
