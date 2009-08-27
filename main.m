@@ -6,6 +6,9 @@
 //  Copyright __MyCompanyName__ 2008. All rights reserved.
 //
 
+
+// Valgrind を使って iPhone アプリのメモリデバッグをする - 某開発者の雑記帳
+// http://d.hatena.ne.jp/tmurakam/20090123/1232680212
 #import <UIKit/UIKit.h>
 #import <unistd.h>
 
@@ -14,7 +17,6 @@
 #endif
 
 #define VALGRIND_PATH   "/usr/local/bin/valgrind"
-
 int main(int argc, char *argv[])
 {
 #if ENABLE_VALGRIND
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 }
 
 
-
+// xcode original template
 /*
 #import <UIKit/UIKit.h>
 
