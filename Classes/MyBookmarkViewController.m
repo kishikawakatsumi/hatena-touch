@@ -32,7 +32,7 @@
 
 - (void)_loadMyBookmarks {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 
 	HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
 	NSData *data = [atomPub requestMyBookmarkFeed:offset];
@@ -40,7 +40,7 @@
 	
 	[self loadEntriesWithData:data entryTag:@"entry" target:self callBack:@selector(addMyBookmark:)];
 	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	[pool release];
 }
 

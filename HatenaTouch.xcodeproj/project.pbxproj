@@ -28,7 +28,6 @@
 		141DE9000E71A28900FBA9A5 /* AddBookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE8FC0E71A28900FBA9A5 /* AddBookmarkView.xib */; };
 		141DE9010E71A28900FBA9A5 /* PageBookmarkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE8FE0E71A28900FBA9A5 /* PageBookmarkCell.xib */; };
 		141DE9210E71A32000FBA9A5 /* DiaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE9190E71A32000FBA9A5 /* DiaryCell.xib */; };
-		141DE9220E71A32000FBA9A5 /* DiaryNextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE91B0E71A32000FBA9A5 /* DiaryNextCell.xib */; };
 		141DE9230E71A32000FBA9A5 /* DiaryTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE91D0E71A32000FBA9A5 /* DiaryTitleCell.xib */; };
 		141DE9240E71A32000FBA9A5 /* HatenaSyntaxSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE91F0E71A32000FBA9A5 /* HatenaSyntaxSheet.xib */; };
 		141DE9470E71A3B100FBA9A5 /* DiaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9300E71A3B100FBA9A5 /* DiaryViewController.m */; };
@@ -41,7 +40,6 @@
 		141DE94F0E71A3B100FBA9A5 /* Diary.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9400E71A3B100FBA9A5 /* Diary.m */; };
 		141DE9500E71A3B100FBA9A5 /* HatenaSyntaxSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9420E71A3B100FBA9A5 /* HatenaSyntaxSheetController.m */; };
 		141DE9510E71A3B100FBA9A5 /* DiaryNextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9440E71A3B100FBA9A5 /* DiaryNextCell.m */; };
-		141DE9520E71A3B100FBA9A5 /* DiaryNextCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9460E71A3B100FBA9A5 /* DiaryNextCellController.m */; };
 		141DE95F0E71A3D900FBA9A5 /* MyBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9560E71A3D900FBA9A5 /* MyBookmarkViewController.m */; };
 		141DE9600E71A3D900FBA9A5 /* MyBookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9580E71A3D900FBA9A5 /* MyBookmarkCell.m */; };
 		141DE9620E71A3D900FBA9A5 /* MyBookmarkNextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE95C0E71A3D900FBA9A5 /* MyBookmarkNextCell.m */; };
@@ -69,6 +67,8 @@
 		149EE46C1049965E0022308F /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 149EE46A1049965E0022308F /* forward.png */; };
 		149EE48F10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE48E10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m */; };
 		149EE49F10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE49E10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m */; };
+		149EE4C51049A60A0022308F /* DiaryListCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE4C41049A60A0022308F /* DiaryListCellSelectedBackgroundView.m */; };
+		149EE4E11049AB010022308F /* DiaryNextCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE4E01049AB010022308F /* DiaryNextCellSelectedBackgroundView.m */; };
 		149F5E050EE168A300327D14 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E020EE168A300327D14 /* HttpClient.m */; };
 		149F5E060EE168A300327D14 /* StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E040EE168A300327D14 /* StringHelper.m */; };
 		149F5E230EE16A9500327D14 /* dialogue.png in Resources */ = {isa = PBXBuildFile; fileRef = 149F5E220EE16A9500327D14 /* dialogue.png */; };
@@ -119,11 +119,9 @@
 		141DE9020E71A29300FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/AddBookmarkView.xib; sourceTree = "<group>"; };
 		141DE9030E71A29400FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/PageBookmarkCell.xib; sourceTree = "<group>"; };
 		141DE91A0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryCell.xib; sourceTree = "<group>"; };
-		141DE91C0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryNextCell.xib; sourceTree = "<group>"; };
 		141DE91E0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryTitleCell.xib; sourceTree = "<group>"; };
 		141DE9200E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HatenaSyntaxSheet.xib; sourceTree = "<group>"; };
 		141DE9250E71A32E00FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/DiaryCell.xib; sourceTree = "<group>"; };
-		141DE9260E71A32E00FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/DiaryNextCell.xib; sourceTree = "<group>"; };
 		141DE9270E71A32E00FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/DiaryTitleCell.xib; sourceTree = "<group>"; };
 		141DE9280E71A32E00FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/HatenaSyntaxSheet.xib; sourceTree = "<group>"; };
 		141DE92F0E71A3B100FBA9A5 /* DiaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryViewController.h; sourceTree = "<group>"; };
@@ -146,8 +144,6 @@
 		141DE9420E71A3B100FBA9A5 /* HatenaSyntaxSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HatenaSyntaxSheetController.m; sourceTree = "<group>"; };
 		141DE9430E71A3B100FBA9A5 /* DiaryNextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryNextCell.h; sourceTree = "<group>"; };
 		141DE9440E71A3B100FBA9A5 /* DiaryNextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiaryNextCell.m; sourceTree = "<group>"; };
-		141DE9450E71A3B100FBA9A5 /* DiaryNextCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryNextCellController.h; sourceTree = "<group>"; };
-		141DE9460E71A3B100FBA9A5 /* DiaryNextCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiaryNextCellController.m; sourceTree = "<group>"; };
 		141DE9550E71A3D900FBA9A5 /* MyBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkViewController.h; sourceTree = "<group>"; };
 		141DE9560E71A3D900FBA9A5 /* MyBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkViewController.m; sourceTree = "<group>"; };
 		141DE9570E71A3D900FBA9A5 /* MyBookmarkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkCell.h; sourceTree = "<group>"; };
@@ -197,6 +193,10 @@
 		149EE48E10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkCellSelectedBackgroundView.m; sourceTree = "<group>"; };
 		149EE49D10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkNextCellSelectedBackgroundView.h; sourceTree = "<group>"; };
 		149EE49E10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkNextCellSelectedBackgroundView.m; sourceTree = "<group>"; };
+		149EE4C31049A60A0022308F /* DiaryListCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryListCellSelectedBackgroundView.h; sourceTree = "<group>"; };
+		149EE4C41049A60A0022308F /* DiaryListCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiaryListCellSelectedBackgroundView.m; sourceTree = "<group>"; };
+		149EE4DF1049AB010022308F /* DiaryNextCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryNextCellSelectedBackgroundView.h; sourceTree = "<group>"; };
+		149EE4E01049AB010022308F /* DiaryNextCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiaryNextCellSelectedBackgroundView.m; sourceTree = "<group>"; };
 		149F5E010EE168A300327D14 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		149F5E020EE168A300327D14 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		149F5E030EE168A300327D14 /* StringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelper.h; sourceTree = "<group>"; };
@@ -281,7 +281,6 @@
 		141DE9120E71A2FD00FBA9A5 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				141DE91B0E71A32000FBA9A5 /* DiaryNextCell.xib */,
 				141DE91D0E71A32000FBA9A5 /* DiaryTitleCell.xib */,
 				141DE9190E71A32000FBA9A5 /* DiaryCell.xib */,
 				141DE91F0E71A32000FBA9A5 /* HatenaSyntaxSheet.xib */,
@@ -427,10 +426,12 @@
 				141DE93A0E71A3B100FBA9A5 /* DiaryListViewController.m */,
 				141DE93B0E71A3B100FBA9A5 /* DiaryListCell.h */,
 				141DE93C0E71A3B100FBA9A5 /* DiaryListCell.m */,
-				141DE9450E71A3B100FBA9A5 /* DiaryNextCellController.h */,
-				141DE9460E71A3B100FBA9A5 /* DiaryNextCellController.m */,
+				149EE4C31049A60A0022308F /* DiaryListCellSelectedBackgroundView.h */,
+				149EE4C41049A60A0022308F /* DiaryListCellSelectedBackgroundView.m */,
 				141DE9430E71A3B100FBA9A5 /* DiaryNextCell.h */,
 				141DE9440E71A3B100FBA9A5 /* DiaryNextCell.m */,
+				149EE4DF1049AB010022308F /* DiaryNextCellSelectedBackgroundView.h */,
+				149EE4E01049AB010022308F /* DiaryNextCellSelectedBackgroundView.m */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -551,7 +552,6 @@
 				141DE9000E71A28900FBA9A5 /* AddBookmarkView.xib in Resources */,
 				141DE9010E71A28900FBA9A5 /* PageBookmarkCell.xib in Resources */,
 				141DE9210E71A32000FBA9A5 /* DiaryCell.xib in Resources */,
-				141DE9220E71A32000FBA9A5 /* DiaryNextCell.xib in Resources */,
 				141DE9230E71A32000FBA9A5 /* DiaryTitleCell.xib in Resources */,
 				141DE9240E71A32000FBA9A5 /* HatenaSyntaxSheet.xib in Resources */,
 				14016C360E8170E000DF1904 /* Comment.png in Resources */,
@@ -586,7 +586,6 @@
 				141DE94F0E71A3B100FBA9A5 /* Diary.m in Sources */,
 				141DE9500E71A3B100FBA9A5 /* HatenaSyntaxSheetController.m in Sources */,
 				141DE9510E71A3B100FBA9A5 /* DiaryNextCell.m in Sources */,
-				141DE9520E71A3B100FBA9A5 /* DiaryNextCellController.m in Sources */,
 				141DE95F0E71A3D900FBA9A5 /* MyBookmarkViewController.m in Sources */,
 				141DE9600E71A3D900FBA9A5 /* MyBookmarkCell.m in Sources */,
 				141DE9620E71A3D900FBA9A5 /* MyBookmarkNextCell.m in Sources */,
@@ -619,6 +618,8 @@
 				1404AFFC10011A9100E133B9 /* TableCellDrawing.m in Sources */,
 				149EE48F10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m in Sources */,
 				149EE49F10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m in Sources */,
+				149EE4C51049A60A0022308F /* DiaryListCellSelectedBackgroundView.m in Sources */,
+				149EE4E11049AB010022308F /* DiaryNextCellSelectedBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,15 +687,6 @@
 				141DE9250E71A32E00FBA9A5 /* Japanese */,
 			);
 			name = DiaryCell.xib;
-			sourceTree = "<group>";
-		};
-		141DE91B0E71A32000FBA9A5 /* DiaryNextCell.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				141DE91C0E71A32000FBA9A5 /* English */,
-				141DE9260E71A32E00FBA9A5 /* Japanese */,
-			);
-			name = DiaryNextCell.xib;
 			sourceTree = "<group>";
 		};
 		141DE91D0E71A32000FBA9A5 /* DiaryTitleCell.xib */ = {

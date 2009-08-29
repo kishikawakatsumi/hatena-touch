@@ -4,8 +4,9 @@
 #import "HatenaAtomPub.h"
 #import "DiaryListCell.h"
 #import "DiaryViewController.h"
-#import "DiaryNextCellController.h"
 #import "DiaryNextCell.h"
+
+#define ROWNUM_PER_PAGE 20
 
 @implementation DiaryListViewController
 
@@ -15,8 +16,8 @@
 @synthesize forceReload;
 
 - (void)dealloc {
-	[dateFormatter2 release];
 	[dateFormatter1 release];
+	[dateFormatter2 release];
 	[diaryList release];
 	[diaryListView setDelegate:nil];
 	[diaryListView release];
@@ -29,7 +30,7 @@
 
 - (void)_loadDiaryList {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	
 	HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
 	NSData *data = [atomPub requestBlogCollectionWhetherDraft:draft pageNumber:page];
@@ -40,7 +41,7 @@
 	[parser release];
 	[atomPub release];
 	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	[pool release];
 }
 
@@ -50,7 +51,7 @@
 
 - (void)addDiaryList:(id)entry {
 	if (!diaryList) {
-		diaryList = [[NSMutableArray alloc] initWithCapacity:20];
+		diaryList = [[NSMutableArray alloc] initWithCapacity:ROWNUM_PER_PAGE];
 	}
 	[diaryList addObject:entry];
 	[diaryListView reloadData];
@@ -66,10 +67,8 @@
 }
 
 - (void)loadNext {
-	[diaryList release];
-	diaryList = nil;
 	page += 1;
-	[self refleshIfNeeded];
+	[self loadDiaryList];
 }
 
 - (BOOL)deleteEntry:(NSDictionary *)entry {
@@ -94,10 +93,8 @@
 	NSInteger count = [diaryList count];
 	if (count == 0) {
 		return 0;
-	} else if (count == 20) {
-		return count + 1;
 	} else {
-		return count;
+		return count + 1;
 	}
 }
 
@@ -105,9 +102,7 @@
 	if (indexPath.row == [diaryList count]) {
 		DiaryNextCell *cell = (DiaryNextCell *)[tableView dequeueReusableCellWithIdentifier:@"DiaryNextCell"];
 		if (cell == nil) {
-			DiaryNextCellController *controller = [[DiaryNextCellController alloc] initWithNibName:@"DiaryNextCell" bundle:nil];
-			cell = (DiaryNextCell *)controller.view;
-			[controller release];
+			cell = [[[DiaryNextCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 64.0f) reuseIdentifier:@"DiaryNextCell"] autorelease];
 		}
 
 		return cell;
@@ -118,10 +113,10 @@
 		}
 		
 		NSDictionary *entry = [diaryList objectAtIndex:indexPath.row];	
-		[cell.titleLabel setText:[entry objectForKey:@"title"]];
+		[cell setTitleText:[entry objectForKey:@"title"]];
 		NSDate *date = [dateFormatter1 dateFromString:[entry objectForKey:@"published"]];
-		[cell.dateLabel setText:[dateFormatter2 stringFromDate:date]];
-		[cell.numberLabel setText:[NSString stringWithFormat:@"%d", (20 * (page - 1)) + indexPath.row + 1]];
+		[cell setDateText:[dateFormatter2 stringFromDate:date]];
+		[cell setNumberText:[NSString stringWithFormat:@"%d", (ROWNUM_PER_PAGE * (page <= 1 ? 0 : page - 2)) + indexPath.row + 1]];
 
 		return cell;
 	}

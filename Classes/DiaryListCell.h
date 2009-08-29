@@ -1,13 +1,15 @@
 #import <UIKit/UIKit.h>
 
 @interface DiaryListCell : UITableViewCell {
-	IBOutlet UILabel *titleLabel;
-	IBOutlet UILabel *dateLabel;
-	IBOutlet UILabel *numberLabel;
+	NSString *titleText;
+	NSString *dateText;
+	NSString *numberText;
 }
 
-@property (nonatomic, retain) UILabel *titleLabel;
-@property (nonatomic, retain) UILabel *dateLabel;
-@property (nonatomic, retain) UILabel *numberLabel;
+@property (nonatomic, retain) NSString *titleText;
+@property (nonatomic, retain) NSString *dateText;
+@property (nonatomic, retain) NSString *numberText;
+
+- (void)drawSelectedBackgroundRect:(CGRect)rect;
 
 @end
