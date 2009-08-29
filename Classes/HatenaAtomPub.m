@@ -340,12 +340,9 @@
 }
 
 - (NSData *)requestMyBookmarkFeed:(NSInteger)offset {
-	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
-	UserSettings *userSettings = hatenaTouchApp.userSettings;
-	NSString *userName = userSettings.userName;
-	NSMutableURLRequest *req = [self makeRequestWithURI:[NSString stringWithFormat:@"http://b.hatena.ne.jp/%@/atomfeed?of=%d", userName, offset]
+	NSMutableURLRequest *req = [self makeRequestWithURI:[NSString stringWithFormat:@"http://b.hatena.ne.jp/atom/feed?of=%d", offset]
 												 method:@"GET"];
-	
+  
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
 	NSData *data;

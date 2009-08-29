@@ -1,0 +1,20 @@
+diff --git a/Classes/HatenaAtomPub.m b/Classes/HatenaAtomPub.m
+index bd7ee47..9d1787d 100644
+--- a/Classes/HatenaAtomPub.m
++++ b/Classes/HatenaAtomPub.m
+@@ -340,12 +340,9 @@
+ }
+ 
+ - (NSData *)requestMyBookmarkFeed:(NSInteger)offset {
+-   HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
+-   UserSettings *userSettings = hatenaTouchApp.userSettings;
+-   NSString *userName = userSettings.userName;
+-   NSMutableURLRequest *req = [self makeRequestWithURI:[NSString stringWithFormat:@"http://b.hatena.ne.jp/%@/atomfeed?of=%d", userName, offset]
++   NSMutableURLRequest *req = [self makeRequestWithURI:[NSString stringWithFormat:@"http://b.hatena.ne.jp/atom/feed?of=%d", offset]
+                                                 method:@"GET"];
+-   
++  
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    NSData *data;
+
