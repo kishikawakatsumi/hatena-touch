@@ -4,7 +4,6 @@
 #import "HatenaTouchAppDelegate.h"
 #import "WebViewController.h"
 #import "HatenaAtomPub.h"
-#import "MyBookmarkNextCellController.h";
 #import "MyBookmarkNextCell.h"
 #import "Debug.h"
 
@@ -15,13 +14,6 @@
 @synthesize myBookmarkView;
 @synthesize myBookmarks;
 @synthesize selectedRow;
-
-- (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
-		;
-	}
-	return self;
-}
 
 - (void)dealloc {
 	[selectedRow release];
@@ -72,10 +64,8 @@
 }
 
 - (void)loadNext {
-	[myBookmarks release];
-	myBookmarks = nil;
 	offset += FEED_OFFSET;
-	[self refleshIfNeeded];
+	[self loadMyBookmarks];
 }
 
 - (BOOL)deleteEntry:(NSDictionary *)entry {
@@ -99,10 +89,8 @@
 	NSInteger count = [myBookmarks count];
 	if (count == 0) {
 		return 0;
-	} else if (count == FEED_OFFSET) {
-		return count + 1;
 	} else {
-		return count;
+		return count + 1;
 	}
 }
 
@@ -110,9 +98,7 @@
 	if (indexPath.row == [myBookmarks count]) {
 		MyBookmarkNextCell *cell = (MyBookmarkNextCell *)[tableView dequeueReusableCellWithIdentifier:@"MyBookmarkNextCell"];
 		if (cell == nil) {
-			MyBookmarkNextCellController *controller = [[MyBookmarkNextCellController alloc] initWithNibName:@"MyBookmarkNextCell" bundle:nil];
-			cell = (MyBookmarkNextCell *)controller.view;
-			[controller release];
+			cell = [[[MyBookmarkNextCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 70.0f) reuseIdentifier:@"MyBookmarkNextCell"] autorelease];
 		}
 
 		return cell;
@@ -123,9 +109,9 @@
 		}
 		
 		NSDictionary *entry = [myBookmarks objectAtIndex:indexPath.row];
-		[cell.titleLabel setText:[entry objectForKey:@"title"]];
-		[cell.linkLabel setText:[entry objectForKey:@"related"]];
-		[cell.numberLabel setText:[NSString stringWithFormat:@"%d", indexPath.row +1]];
+		[cell setTitleText:[entry objectForKey:@"title"]];
+		[cell setLinkText:[entry objectForKey:@"related"]];
+		[cell setNumberText:[NSString stringWithFormat:@"%d", indexPath.row +1]];
 
 		return cell;
 	}
@@ -139,7 +125,7 @@
 #pragma mark <UITableViewDelegate> Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == FEED_OFFSET) {
+	if (indexPath.row == [myBookmarks count]) {
 		[self loadNext];
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	} else {
@@ -183,10 +169,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self refleshIfNeeded];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {

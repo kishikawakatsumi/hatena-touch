@@ -27,7 +27,6 @@
 		141DE8FA0E71A27300FBA9A5 /* InformationSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE8F70E71A27300FBA9A5 /* InformationSheet.xib */; };
 		141DE9000E71A28900FBA9A5 /* AddBookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE8FC0E71A28900FBA9A5 /* AddBookmarkView.xib */; };
 		141DE9010E71A28900FBA9A5 /* PageBookmarkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE8FE0E71A28900FBA9A5 /* PageBookmarkCell.xib */; };
-		141DE90B0E71A2CC00FBA9A5 /* MyBookmarkNextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE9090E71A2CC00FBA9A5 /* MyBookmarkNextCell.xib */; };
 		141DE9210E71A32000FBA9A5 /* DiaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE9190E71A32000FBA9A5 /* DiaryCell.xib */; };
 		141DE9220E71A32000FBA9A5 /* DiaryNextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE91B0E71A32000FBA9A5 /* DiaryNextCell.xib */; };
 		141DE9230E71A32000FBA9A5 /* DiaryTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141DE91D0E71A32000FBA9A5 /* DiaryTitleCell.xib */; };
@@ -46,7 +45,6 @@
 		141DE95F0E71A3D900FBA9A5 /* MyBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9560E71A3D900FBA9A5 /* MyBookmarkViewController.m */; };
 		141DE9600E71A3D900FBA9A5 /* MyBookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9580E71A3D900FBA9A5 /* MyBookmarkCell.m */; };
 		141DE9620E71A3D900FBA9A5 /* MyBookmarkNextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE95C0E71A3D900FBA9A5 /* MyBookmarkNextCell.m */; };
-		141DE9630E71A3D900FBA9A5 /* MyBookmarkNextCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE95E0E71A3D900FBA9A5 /* MyBookmarkNextCellController.m */; };
 		141DE96B0E71A3EF00FBA9A5 /* HotEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9660E71A3EF00FBA9A5 /* HotEntryViewController.m */; };
 		141DE96D0E71A3EF00FBA9A5 /* EntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE96A0E71A3EF00FBA9A5 /* EntryCell.m */; };
 		141DE97D0E71A40300FBA9A5 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141DE9700E71A40300FBA9A5 /* WebViewController.m */; };
@@ -69,6 +67,8 @@
 		149EE4611049962D0022308F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 149EE4601049962D0022308F /* Default.png */; };
 		149EE46B1049965E0022308F /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 149EE4691049965E0022308F /* back.png */; };
 		149EE46C1049965E0022308F /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 149EE46A1049965E0022308F /* forward.png */; };
+		149EE48F10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE48E10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m */; };
+		149EE49F10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 149EE49E10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m */; };
 		149F5E050EE168A300327D14 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E020EE168A300327D14 /* HttpClient.m */; };
 		149F5E060EE168A300327D14 /* StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 149F5E040EE168A300327D14 /* StringHelper.m */; };
 		149F5E230EE16A9500327D14 /* dialogue.png in Resources */ = {isa = PBXBuildFile; fileRef = 149F5E220EE16A9500327D14 /* dialogue.png */; };
@@ -118,8 +118,6 @@
 		141DE8FF0E71A28900FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PageBookmarkCell.xib; sourceTree = "<group>"; };
 		141DE9020E71A29300FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/AddBookmarkView.xib; sourceTree = "<group>"; };
 		141DE9030E71A29400FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/PageBookmarkCell.xib; sourceTree = "<group>"; };
-		141DE90A0E71A2CC00FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyBookmarkNextCell.xib; sourceTree = "<group>"; };
-		141DE90C0E71A2D300FBA9A5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/MyBookmarkNextCell.xib; sourceTree = "<group>"; };
 		141DE91A0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryCell.xib; sourceTree = "<group>"; };
 		141DE91C0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryNextCell.xib; sourceTree = "<group>"; };
 		141DE91E0E71A32000FBA9A5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiaryTitleCell.xib; sourceTree = "<group>"; };
@@ -156,8 +154,6 @@
 		141DE9580E71A3D900FBA9A5 /* MyBookmarkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkCell.m; sourceTree = "<group>"; };
 		141DE95B0E71A3D900FBA9A5 /* MyBookmarkNextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkNextCell.h; sourceTree = "<group>"; };
 		141DE95C0E71A3D900FBA9A5 /* MyBookmarkNextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkNextCell.m; sourceTree = "<group>"; };
-		141DE95D0E71A3D900FBA9A5 /* MyBookmarkNextCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkNextCellController.h; sourceTree = "<group>"; };
-		141DE95E0E71A3D900FBA9A5 /* MyBookmarkNextCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkNextCellController.m; sourceTree = "<group>"; };
 		141DE9650E71A3EF00FBA9A5 /* HotEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotEntryViewController.h; sourceTree = "<group>"; };
 		141DE9660E71A3EF00FBA9A5 /* HotEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotEntryViewController.m; sourceTree = "<group>"; };
 		141DE9690E71A3EF00FBA9A5 /* EntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryCell.h; sourceTree = "<group>"; };
@@ -197,6 +193,10 @@
 		149EE4601049962D0022308F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		149EE4691049965E0022308F /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		149EE46A1049965E0022308F /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
+		149EE48D10499C720022308F /* MyBookmarkCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkCellSelectedBackgroundView.h; sourceTree = "<group>"; };
+		149EE48E10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkCellSelectedBackgroundView.m; sourceTree = "<group>"; };
+		149EE49D10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookmarkNextCellSelectedBackgroundView.h; sourceTree = "<group>"; };
+		149EE49E10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookmarkNextCellSelectedBackgroundView.m; sourceTree = "<group>"; };
 		149F5E010EE168A300327D14 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		149F5E020EE168A300327D14 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		149F5E030EE168A300327D14 /* StringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelper.h; sourceTree = "<group>"; };
@@ -278,14 +278,6 @@
 			name = Web;
 			sourceTree = "<group>";
 		};
-		141DE9040E71A2A100FBA9A5 /* MyBookmark */ = {
-			isa = PBXGroup;
-			children = (
-				141DE9090E71A2CC00FBA9A5 /* MyBookmarkNextCell.xib */,
-			);
-			name = MyBookmark;
-			sourceTree = "<group>";
-		};
 		141DE9120E71A2FD00FBA9A5 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
@@ -342,10 +334,12 @@
 				141DE9560E71A3D900FBA9A5 /* MyBookmarkViewController.m */,
 				141DE9570E71A3D900FBA9A5 /* MyBookmarkCell.h */,
 				141DE9580E71A3D900FBA9A5 /* MyBookmarkCell.m */,
-				141DE95D0E71A3D900FBA9A5 /* MyBookmarkNextCellController.h */,
-				141DE95E0E71A3D900FBA9A5 /* MyBookmarkNextCellController.m */,
+				149EE48D10499C720022308F /* MyBookmarkCellSelectedBackgroundView.h */,
+				149EE48E10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m */,
 				141DE95B0E71A3D900FBA9A5 /* MyBookmarkNextCell.h */,
 				141DE95C0E71A3D900FBA9A5 /* MyBookmarkNextCell.m */,
+				149EE49D10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.h */,
+				149EE49E10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m */,
 			);
 			name = MyBookmark;
 			sourceTree = "<group>";
@@ -480,7 +474,6 @@
 				141DE84E0E71A1AB00FBA9A5 /* Localizable.strings */,
 				141DE8ED0E71A1D100FBA9A5 /* help.html */,
 				141DE9120E71A2FD00FBA9A5 /* Diary */,
-				141DE9040E71A2A100FBA9A5 /* MyBookmark */,
 				141DE8F50E71A26800FBA9A5 /* Web */,
 				141DE9290E71A36F00FBA9A5 /* Images */,
 			);
@@ -557,7 +550,6 @@
 				141DE8FA0E71A27300FBA9A5 /* InformationSheet.xib in Resources */,
 				141DE9000E71A28900FBA9A5 /* AddBookmarkView.xib in Resources */,
 				141DE9010E71A28900FBA9A5 /* PageBookmarkCell.xib in Resources */,
-				141DE90B0E71A2CC00FBA9A5 /* MyBookmarkNextCell.xib in Resources */,
 				141DE9210E71A32000FBA9A5 /* DiaryCell.xib in Resources */,
 				141DE9220E71A32000FBA9A5 /* DiaryNextCell.xib in Resources */,
 				141DE9230E71A32000FBA9A5 /* DiaryTitleCell.xib in Resources */,
@@ -598,7 +590,6 @@
 				141DE95F0E71A3D900FBA9A5 /* MyBookmarkViewController.m in Sources */,
 				141DE9600E71A3D900FBA9A5 /* MyBookmarkCell.m in Sources */,
 				141DE9620E71A3D900FBA9A5 /* MyBookmarkNextCell.m in Sources */,
-				141DE9630E71A3D900FBA9A5 /* MyBookmarkNextCellController.m in Sources */,
 				141DE96B0E71A3EF00FBA9A5 /* HotEntryViewController.m in Sources */,
 				141DE96D0E71A3EF00FBA9A5 /* EntryCell.m in Sources */,
 				141DE97D0E71A40300FBA9A5 /* WebViewController.m in Sources */,
@@ -626,6 +617,8 @@
 				146996201000F54A00B155FD /* FeedParser.m in Sources */,
 				1404AFE71001162E00E133B9 /* EntryCellSelectedBackgroundView.m in Sources */,
 				1404AFFC10011A9100E133B9 /* TableCellDrawing.m in Sources */,
+				149EE48F10499C720022308F /* MyBookmarkCellSelectedBackgroundView.m in Sources */,
+				149EE49F10499FB30022308F /* MyBookmarkNextCellSelectedBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,15 +677,6 @@
 				141DE9030E71A29400FBA9A5 /* Japanese */,
 			);
 			name = PageBookmarkCell.xib;
-			sourceTree = "<group>";
-		};
-		141DE9090E71A2CC00FBA9A5 /* MyBookmarkNextCell.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				141DE90A0E71A2CC00FBA9A5 /* English */,
-				141DE90C0E71A2D300FBA9A5 /* Japanese */,
-			);
-			name = MyBookmarkNextCell.xib;
 			sourceTree = "<group>";
 		};
 		141DE9190E71A32000FBA9A5 /* DiaryCell.xib */ = {

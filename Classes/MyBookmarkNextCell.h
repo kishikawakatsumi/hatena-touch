@@ -2,4 +2,6 @@
 
 @interface MyBookmarkNextCell : UITableViewCell
 
+- (void)drawSelectedBackgroundRect:(CGRect)rect;
+
 @end
