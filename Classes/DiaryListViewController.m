@@ -214,10 +214,6 @@
 	[self refleshIfNeeded];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 }
