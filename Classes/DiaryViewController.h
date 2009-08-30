@@ -1,9 +1,13 @@
 #import <UIKit/UIKit.h>
 #import "Diary.h"
 
-
 @interface DiaryViewController : UITableViewController <UITableViewDataSource , UITextFieldDelegate, UITextViewDelegate,
 UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+	UITextField *titleField;
+	UITextView *bodyView;
+	UIButton *draftButton;
+	UIButton *submitButton;
+	
 	UITableView *diaryView;
 	UISegmentedControl *toolButtons;
 	
@@ -21,9 +25,6 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	
 	NSRange currentRange;
 }
-
-@property (nonatomic, retain) UITableView *diaryView;
-@property (nonatomic, retain) UISegmentedControl *toolButtons;
 
 @property (nonatomic, retain) NSString *editURI;
 @property (nonatomic) BOOL editEntry;

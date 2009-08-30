@@ -1,9 +1,5 @@
 #import "DiaryListViewController.h"
 #import "DiaryViewController.h"
-#import "DiaryTitleCellController.h"
-#import "DiaryTitleCell.h"
-#import "DiaryCellController.h"
-#import "DiaryCell.h"
 #import "Diary.h"
 #import "HatenaTouchAppDelegate.h"
 #import "HatenaAtomPub.h"
@@ -20,8 +16,6 @@
 	
 @implementation DiaryViewController
 
-@synthesize diaryView;
-@synthesize toolButtons;
 @synthesize editURI;
 @synthesize editEntry;
 @synthesize editDraft;
@@ -30,22 +24,20 @@
 @synthesize edittingDiary;
 @synthesize dataFilePath;
 
-- (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
-		;
-	}
-	return self;
-}
-
 - (void)dealloc {
-	[dataFilePath release];
-	[edittingDiary release];
-	[diaryTextForEdit release];
-	[titleTextForEdit release];
-	[editURI release];
-	[toolButtons release];
-	[diaryView setDelegate:nil];
+	diaryView.delegate = nil;
+	diaryView.dataSource = nil;
 	[diaryView release];
+	[toolButtons release];
+	[titleField release];
+	[bodyView release];
+	[draftButton release];
+	[submitButton release];
+	[dataFilePath release];
+	[editURI release];
+	[edittingDiary release];
+	[titleTextForEdit release];
+	[diaryTextForEdit release];
 	[super dealloc];
 }
 
@@ -154,32 +146,6 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	return imageCopy;
 }
 
-#pragma mark Utility getter Methods
-
-- (UIButton *)submitButton {
-	return [(DiaryCell *)[diaryView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] submitButton];
-}
-
-- (UIButton *)draftButton {
-	return [(DiaryCell *)[diaryView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] draftButton];
-}
-
-- (UITextField *)titleTextField {
-	return [(DiaryTitleCell *)[diaryView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] inputField];
-}
-
-- (UITextView *)diaryTextView {
-	return [(DiaryCell *)[diaryView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] diaryTextView];
-}
-
-- (NSString *)titleText {
-	return [[self titleTextField] text];
-}
-
-- (NSString *)diaryText {
-	return [[self diaryTextView] text];
-}
-
 #pragma mark Temp file access Methods
 
 - (void)loadTemporaryDiary {
@@ -208,8 +174,8 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 		return;
 	}
 	
-	edittingDiary.titleText = [self titleText];
-	edittingDiary.diaryText = [self diaryText];
+	edittingDiary.titleText = titleField.text;
+	edittingDiary.diaryText = bodyView.text;
 	
 	NSMutableData *theData = [NSMutableData data];
 	NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:theData];
@@ -269,28 +235,28 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 - (void) enableButtons {
-	if ([[self titleText] length] != 0 && [[self diaryTextView] hasText]) {
-		[[self submitButton] setEnabled:YES];
-		[[self draftButton] setEnabled:YES];
+	if ([[titleField text] length] != 0 && [bodyView hasText]) {
+		[submitButton setEnabled:YES];
+		[draftButton setEnabled:YES];
 	} else {
-		[[self submitButton] setEnabled:NO];
-		[[self draftButton] setEnabled:NO];
+		[submitButton setEnabled:NO];
+		[draftButton setEnabled:NO];
 	}
 }
 
 - (void)moveUpButtons {
 	if ([self orientationIsPortrait]) {
-		[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 320.0, 179.0)];
+		[bodyView setFrame:CGRectMake(0.0, 0.0, 320.0, 179.0)];
 	} else {
-		[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 480.0, 120.0)];
+		[bodyView setFrame:CGRectMake(0.0, 0.0, 480.0, 120.0)];
 	}
 }
 
 - (void)moveDownButtons {
 	if ([self orientationIsPortrait]) {
-		[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 320.0, 328.0)];
+		[bodyView setFrame:CGRectMake(0.0, 0.0, 320.0, 328.0)];
 	} else {
-		[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 480.0, 212.0)];
+		[bodyView setFrame:CGRectMake(0.0, 0.0, 480.0, 212.0)];
 	}
 }
 
@@ -298,11 +264,11 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
-		return 40.00;
+		return 40.0f;
 	} else if (indexPath.row == 1) {
-		return 386.00;
+		return 386.0f;
 	} else {
-		return 44.00;
+		return 44.0f;
 	}
 }
 
@@ -316,42 +282,37 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
-		DiaryTitleCell *cell = (DiaryTitleCell *)[diaryView dequeueReusableCellWithIdentifier:@"DiaryTitleCell"];
+		UITableViewCell *cell = [diaryView dequeueReusableCellWithIdentifier:@"TitleCell"];
 		if (cell == nil) {
-			DiaryTitleCellController *controller = [[DiaryTitleCellController alloc] initWithNibName:@"DiaryTitleCell" bundle:nil];
-			cell = (DiaryTitleCell *)controller.view;
-			[cell.inputField setDelegate:self];
-			[cell.inputField setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-			[controller release];
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 40.0f) reuseIdentifier:@"TitleCell"] autorelease];
+			cell.accessoryType = UITableViewCellAccessoryNone;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			[cell addSubview:titleField];
 		}
 		
 		if (titleTextForEdit) {
-			[[cell inputField] setText:titleTextForEdit];
+			[titleField setText:titleTextForEdit];
 		} else {
-			[[cell inputField] setText:edittingDiary.titleText];
+			[titleField setText:edittingDiary.titleText];
 		}
 		return cell;
 	} else {
-		DiaryCell *cell = (DiaryCell *)[diaryView dequeueReusableCellWithIdentifier:@"DiaryCell"];
+		UITableViewCell *cell = [diaryView dequeueReusableCellWithIdentifier:@"DiaryCell"];
 		if (cell == nil) {
-			DiaryCellController *controller = [[DiaryCellController alloc] initWithNibName:@"DiaryCell" bundle:nil];
-			cell = (DiaryCell *)controller.view; 
-			[controller release];
-			[cell.diaryTextView setDelegate:self];
-			[cell.diaryTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-			[cell.submitButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 386.0f) reuseIdentifier:@"DiaryCell"] autorelease];
+			[cell addSubview:bodyView];
+			[cell addSubview:draftButton];
+			[cell addSubview:submitButton];
 		}
 		
 		if (editEntry) {
-			[[cell draftButton] removeFromSuperview];
-		} else {
-			[[cell draftButton] addTarget:self action:@selector(submitDraft:) forControlEvents:UIControlEventTouchUpInside];
+			[draftButton removeFromSuperview];
 		}
 		
 		if (diaryTextForEdit) {
-			[[cell diaryTextView] setText:diaryTextForEdit];
+			[bodyView setText:diaryTextForEdit];
 		} else {
-			[[cell diaryTextView] setText:edittingDiary.diaryText];
+			[bodyView setText:edittingDiary.diaryText];
 		}
 		return cell;
 	}
@@ -367,23 +328,24 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	if ([textField.text length] == 1 && range.location == 0 && range.length == 1 && [string length] == 0) {
-		[[self submitButton] setEnabled:NO];
-		[[self draftButton] setEnabled:NO];
+		[submitButton setEnabled:NO];
+		[draftButton setEnabled:NO];
 		return YES;
 	} 
 	if (([textField.text length] != 0 || [string length] != 0)
-		&& [[self diaryText] length] != 0) {
-		[[self submitButton] setEnabled:YES];
-		[[self draftButton] setEnabled:YES];
+		&& [[bodyView text] length] != 0) {
+		[submitButton setEnabled:YES];
+		[draftButton setEnabled:YES];
 	} else  {
-		[[self submitButton] setEnabled:NO];
-		[[self draftButton] setEnabled:NO];
+		[submitButton setEnabled:NO];
+		[draftButton setEnabled:NO];
 	}
 	return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
+	[bodyView becomeFirstResponder];
 	return YES;
 }
 
@@ -404,12 +366,12 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 //}
 
 - (void)textViewDidChange:(UITextView *)textView {
-	if ([textView.text length] != 0 && [[self titleText] length] != 0) {
-		[[self submitButton] setEnabled:YES];
-		[[self draftButton] setEnabled:YES];
+	if ([bodyView.text length] != 0 && [titleField.text length] != 0) {
+		[submitButton setEnabled:YES];
+		[draftButton setEnabled:YES];
 	} else {
-		[[self submitButton] setEnabled:NO];
-		[[self draftButton] setEnabled:NO];
+		[submitButton setEnabled:NO];
+		[draftButton setEnabled:NO];
 	}
 	[self saveTemporaryDiary];
 }
@@ -486,12 +448,10 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 #pragma mark Action Methods
 
 -(void)done:(id)sender {
-	UITextField *titleField = [self titleTextField];
-	UITextView *diaryTextView = [self diaryTextView];
 	if ([titleField isEditing]) {
 		[titleField resignFirstResponder];
 	} else {
-		[diaryTextView resignFirstResponder];
+		[bodyView resignFirstResponder];
 	}
 }
 
@@ -529,9 +489,9 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 - (void)inssertSyntaxText:(NSString *)syntax {
-	NSMutableString *newText = [NSMutableString stringWithString:[self diaryText]];
+	NSMutableString *newText = [NSMutableString stringWithString:bodyView.text];
 	[newText insertString:syntax atIndex:currentRange.location];
-	[[self diaryTextView] setText:newText];
+	[bodyView setText:newText];
 }
 
 #pragma mark HTTP request Methods
@@ -540,7 +500,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
-	Diary *diary = [Diary diaryWithTitle:[self titleText] text:[self diaryText]];
+	Diary *diary = [Diary diaryWithTitle:titleField.text text:bodyView.text];
 	
 	BOOL success = NO;
 	NSString *newPostURL = nil;
@@ -587,7 +547,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
-	Diary *diary = [Diary diaryWithTitle:[self titleText] text:[self diaryText]];
+	Diary *diary = [Diary diaryWithTitle:titleField.text text:bodyView.text];
 	
 	BOOL success = NO;
 	NSString *newPostURL = nil;
@@ -627,33 +587,67 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	if (fromInterfaceOrientation == UIDeviceOrientationIsPortrait(fromInterfaceOrientation)) {
-		[[self submitButton] setFrame:CGRectMake(380.0, 220.0, 80.0, 30.0)];
-		[[self draftButton] setFrame:CGRectMake(292.0, 220.0, 80.0, 30.0)];
+		[submitButton setFrame:CGRectMake(380.0, 220.0, 80.0, 30.0)];
+		[draftButton setFrame:CGRectMake(292.0, 220.0, 80.0, 30.0)];
 		if (isEdittingDiaryText) {
-			[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 480.0, 120.0)];
+			[bodyView setFrame:CGRectMake(0.0, 0.0, 480.0, 120.0)];
 		} else {
-			[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 480.0, 212.0)];
+			[bodyView setFrame:CGRectMake(0.0, 0.0, 480.0, 212.0)];
 		}
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
 	} else {
-		[[self submitButton] setFrame:CGRectMake(220.0, 336.0, 80.0, 30.0)];
-		[[self draftButton] setFrame:CGRectMake(132.0, 336.0, 80.0, 30.0)];
-		if (isEdittingDiaryText || [[self titleTextField] isEditing]) {
-			[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 320.0, 179.0)];
+		[submitButton setFrame:CGRectMake(220.0, 336.0, 80.0, 30.0)];
+		[draftButton setFrame:CGRectMake(132.0, 336.0, 80.0, 30.0)];
+		if (isEdittingDiaryText || [titleField isEditing]) {
+			[bodyView setFrame:CGRectMake(0.0, 0.0, 320.0, 179.0)];
 		} else {
-			[[self diaryTextView] setFrame:CGRectMake(0.0, 0.0, 320.0, 328.0)];
+			[bodyView setFrame:CGRectMake(0.0, 0.0, 320.0, 328.0)];
 		}
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
 	}
 }
 
 - (void)loadView {
-	[diaryView release];
-	diaryView = nil;
 	diaryView = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 460.0f)];
+	diaryView.scrollEnabled = NO;
 	[diaryView setDelegate:self];
 	[diaryView setDataSource:self];
 	[self setView:diaryView];
+	
+	titleField = [[UITextField alloc] initWithFrame:CGRectMake(20.0f, 4.0f, 300.0f, 32.0f)];
+	[titleField setDelegate:self];
+	[titleField setAdjustsFontSizeToFitWidth:NO];
+	[titleField setBorderStyle:UITextBorderStyleNone];
+	[titleField setClearButtonMode:UITextFieldViewModeWhileEditing];
+	[titleField setClearsOnBeginEditing:NO];
+	[titleField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[titleField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[titleField setEnablesReturnKeyAutomatically:YES];
+	[titleField setReturnKeyType:UIReturnKeyNext];
+	[titleField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+	[titleField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+	[titleField setPlaceholder:NSLocalizedString(@"Title", nil)];
+	[titleField setKeyboardType:UIKeyboardTypeDefault];
+	[titleField setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+	
+	bodyView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 328.0f)];
+	[bodyView setDelegate:self];
+	[bodyView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[bodyView setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[bodyView setReturnKeyType:UIReturnKeyDone];
+	[bodyView setKeyboardType:UIKeyboardTypeDefault];
+	[bodyView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	
+	draftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	[draftButton setTitle:NSLocalizedString(@"DraftButton", nil) forState:UIControlStateNormal];
+	draftButton.frame = CGRectMake(132.0f, 336.0f, 80.0f, 30.0f);
+	
+	submitButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	[submitButton setTitle:NSLocalizedString(@"SubmitButton", nil) forState:UIControlStateNormal];
+	submitButton.frame = CGRectMake(220.0f, 336.0f, 80.0f, 30.0f);
+	
+	[draftButton addTarget:self action:@selector(submitDraft:) forControlEvents:UIControlEventTouchUpInside];
+	[submitButton addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewDidLoad {
@@ -690,7 +684,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	[super viewDidAppear:animated];
 	[self enableButtons];
 	
-	[[self diaryTextView] scrollRangeToVisible:currentRange];
+	[bodyView scrollRangeToVisible:currentRange];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
