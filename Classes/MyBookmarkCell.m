@@ -64,7 +64,7 @@ static UIColor *darkGrayColor = NULL;
 	[blueColor set];
 	[titleText drawInRect:CGRectMake(20.0f, 5.0f, 277.0f, 37.0f) withFont:[UIFont boldSystemFontOfSize:14.0f] lineBreakMode:UILineBreakModeTailTruncation];
 	[darkGrayColor set];
-	[linkText drawInRect:CGRectMake(20.0f, 46.0f, 277.0f, 26.0f) withFont:[UIFont systemFontOfSize:12.0f] lineBreakMode:UILineBreakModeTailTruncation];
+	[linkText drawInRect:CGRectMake(20.0f, 40.0f, 277.0f, 28.0f) withFont:[UIFont systemFontOfSize:12.0f] lineBreakMode:UILineBreakModeTailTruncation];
 	[[UIColor blackColor] set];
 	[numberText drawInRect:CGRectMake(0.0f, 28.0f, 16.0f, 21.0f) withFont:[UIFont systemFontOfSize:9.0f] lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentRight];
 }
@@ -75,7 +75,7 @@ static UIColor *darkGrayColor = NULL;
 	CGGradientRelease(gradientForSelected);
 	[[UIColor whiteColor] set];
 	[titleText drawInRect:CGRectMake(20.0f, 5.0f, 277.0f, 37.0f) withFont:[UIFont boldSystemFontOfSize:14.0f] lineBreakMode:UILineBreakModeTailTruncation];
-	[linkText drawInRect:CGRectMake(20.0f, 46.0f, 277.0f, 26.0f) withFont:[UIFont systemFontOfSize:12.0f] lineBreakMode:UILineBreakModeTailTruncation];
+	[linkText drawInRect:CGRectMake(20.0f, 40.0f, 277.0f, 28.0f) withFont:[UIFont systemFontOfSize:12.0f] lineBreakMode:UILineBreakModeTailTruncation];
 	[numberText drawInRect:CGRectMake(0.0f, 28.0f, 16.0f, 21.0f) withFont:[UIFont systemFontOfSize:9.0f] lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentRight];
 }
 

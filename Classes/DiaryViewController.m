@@ -10,7 +10,7 @@
 
 @interface DiaryViewController (private)
 
-- (void)inssertSyntaxText:(NSString *)syntax;
+- (void)insertSyntaxText:(NSString *)syntax;
 
 @end
 	
@@ -168,7 +168,6 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 - (void)saveTemporaryDiary {
-    LOG_CURRENT_METHOD;
 	if ([titleTextForEdit length] != 0 || [diaryTextForEdit length] != 0) {
 		//下書き or 過去の日記の修正の場合は保存しない
 		return;
@@ -185,8 +184,6 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	
 	[theData writeToFile:dataFilePath atomically:YES];
 	[encoder release];
-    
-    LOG(@"%@", editingDiary);
 }
 
 - (void)deleteTemporaryDiary {
@@ -237,7 +234,8 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 - (void)enableButtons {
-	if ([[titleField text] length] != 0 && [bodyView hasText]) {
+    LOG_CURRENT_METHOD;
+	if ([titleField.text length] != 0 && [bodyView.text length] != 0) {
 		[submitButton setEnabled:YES];
 		[draftButton setEnabled:YES];
 	} else {
@@ -352,8 +350,46 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 
 #pragma mark <UIImagePickerControllerDelegate> Methods
 
+- (void)imagePickerController:(UIImagePickerController *)picker 
+didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
+	UserSettings *userSettings = hatenaTouchApp.userSettings;
+	NSInteger imageSize = 480;
+	switch (userSettings.imageSize) {
+		case UserSettingsImageSizeSmall:
+			imageSize = 240;
+			break;
+		case UserSettingsImageSizeMedium:
+			imageSize = 480;
+			break;
+		case UserSettingsImageSizeLarge:
+			imageSize = 600;
+			break;
+		case UserSettingsImageSizeExtraLarge:
+			imageSize = 800;
+			break;
+		default:
+			break;
+	}
+	
+	UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+	UIImage *uploadImage = nil;
+	if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+		UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, nil);
+		uploadImage = scaleAndRotateImage(originalImage, imageSize);
+	} else {
+		uploadImage = scaleAndRotateImage(originalImage, imageSize);
+	}
+	HatenaAtomPub *atomPub = [[[HatenaAtomPub alloc] init] autorelease];
+	NSDictionary *responseData = [atomPub requestPostNewImage:uploadImage title:@""];
+	if (responseData) {
+		[self insertSyntaxText:[NSString stringWithFormat:@"[%@]\n", [responseData objectForKey:@"hatena:syntax"]]];
+	}
+    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker
-		didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+		didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {  
 	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
 	UserSettings *userSettings = hatenaTouchApp.userSettings;
 	NSInteger imageSize = 480;
@@ -385,7 +421,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	HatenaAtomPub *atomPub = [[[HatenaAtomPub alloc] init] autorelease];
 	NSDictionary *responseData = [atomPub requestPostNewImage:uploadImage title:@""];
 	if (responseData) {
-		[self inssertSyntaxText:[NSString stringWithFormat:@"[%@]\n", [responseData objectForKey:@"hatena:syntax"]]];
+		[self insertSyntaxText:[NSString stringWithFormat:@"[%@]\n", [responseData objectForKey:@"hatena:syntax"]]];
 	}
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
@@ -401,6 +437,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 -(void)showCameraImagePicker:(id)sender {
+    [bodyView resignFirstResponder];
 	UIImagePickerController *pickerController = [[HatenaTouchAppDelegate sharedHatenaTouchApp] sharedPickerController];
 	pickerController.allowsImageEditing = YES;
 	pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -408,6 +445,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 -(void)showAlbumImagePicker:(id)sender {
+    [bodyView resignFirstResponder];
 	UIImagePickerController *pickerController = [[HatenaTouchAppDelegate sharedHatenaTouchApp] sharedPickerController];
 	pickerController.allowsImageEditing = YES;
 	pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -427,13 +465,15 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 }
 
 - (void)showSyntaxList:(id)sender {
+    [bodyView resignFirstResponder];
 	HatenaSyntaxSheetController *controller = 
 	[[[HatenaSyntaxSheetController alloc] initWithNibName:@"HatenaSyntaxSheet" bundle:nil] autorelease];
 	self.navigationItem.rightBarButtonItem = nil;
 	[self presentModalViewController:controller animated:YES];
 }
 
-- (void)inssertSyntaxText:(NSString *)syntax {
+- (void)insertSyntaxText:(NSString *)syntax {
+    LOG_CURRENT_METHOD;
 	NSMutableString *newText = [NSMutableString stringWithString:bodyView.text];
 	[newText insertString:syntax atIndex:currentRange.location];
 	[bodyView setText:newText];
@@ -574,6 +614,11 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
     contentView.backgroundColor = [UIColor whiteColor];
 	[self setView:contentView];
     [contentView release];
+    
+    UIImageView *text_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"text_background.png"]];
+	text_background.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [contentView addSubview:text_background];
+    [text_background release];
 	
 	titleField = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, 4.0f, 310.0f, 33.0f)];
 	[titleField setDelegate:self];
@@ -604,11 +649,14 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	
 	draftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 	[draftButton setTitle:NSLocalizedString(@"DraftButton", nil) forState:UIControlStateNormal];
+    [draftButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    
 	draftButton.frame = CGRectMake(132.0f, 376.0f, 80.0f, 30.0f);
     [contentView addSubview:draftButton];
 	
 	submitButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 	[submitButton setTitle:NSLocalizedString(@"SubmitButton", nil) forState:UIControlStateNormal];
+    [submitButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
 	submitButton.frame = CGRectMake(220.0f, 376.0f, 80.0f, 30.0f);
     [contentView addSubview:submitButton];
 	
@@ -635,14 +683,7 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
 	toolButtons.momentary = YES;
 	[toolButtons addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 	[[self navigationItem] setTitleView:toolButtons];
-	
-	UIImagePickerController *pickerController = [[HatenaTouchAppDelegate sharedHatenaTouchApp] sharedPickerController];
-	pickerController.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    LOG_CURRENT_METHOD;
-	[super viewWillAppear:animated];
+    
 	[self loadTemporaryDiary];
     if (titleTextForEdit) {
         [titleField setText:titleTextForEdit];
@@ -657,6 +698,14 @@ UIImage *scaleAndRotateImage(UIImage *image, int size) {
     } else {
         [bodyView setText:editingDiary.diaryText];
     }
+	
+	UIImagePickerController *pickerController = [[HatenaTouchAppDelegate sharedHatenaTouchApp] sharedPickerController];
+	pickerController.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    LOG_CURRENT_METHOD;
+	[super viewWillAppear:animated];
 	shoudSaveOnExit = YES;
 	[self enableToolButtons:NO];
 }

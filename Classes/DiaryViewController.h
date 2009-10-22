@@ -38,6 +38,6 @@
 - (void)submitDraft:(id)sender;
 
 - (void)showSyntaxList:(id)sender;
-- (void)inssertSyntaxText:(NSString *)syntax;
+- (void)insertSyntaxText:(NSString *)syntax;
 
 @end

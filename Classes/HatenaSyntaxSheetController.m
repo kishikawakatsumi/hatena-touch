@@ -1,6 +1,6 @@
 #import "HatenaSyntaxSheetController.h"
 #import "DiaryViewController.h"
-
+#import "Debug.h"
 
 @implementation HatenaSyntaxSheetController
 
@@ -61,8 +61,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSArray *viewControllers = [[self navigationController] viewControllers];
+	NSArray *viewControllers = [(UINavigationController *)[self parentViewController] viewControllers];
 	DiaryViewController *controller = [viewControllers objectAtIndex:[viewControllers count] -1];
+    LOG(@"%@", controller);
 	NSString *syntax;
 	if (indexPath.section == 0) {
 		syntax = [hatenaSyntaxList1 objectAtIndex:indexPath.row];
@@ -71,7 +72,7 @@
 	} else {
 		syntax = [hatenaSyntaxList3 objectAtIndex:indexPath.row];
 	}
-	[controller inssertSyntaxText:syntax];
+	[controller insertSyntaxText:syntax];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
