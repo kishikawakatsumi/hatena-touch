@@ -109,7 +109,7 @@
 
  - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	 if ([self hasDoneSettings] && indexPath.section == 0 && indexPath.row == 0) {
-		 DiaryViewController *controller = [[DiaryViewController alloc] initWithStyle:UITableViewStylePlain];
+		 DiaryViewController *controller = [[DiaryViewController alloc] init];
 		 [[self navigationController] pushViewController:controller animated:YES];
 		 [controller release];
 	 } else if ([self hasDoneSettings] && indexPath.section == 0 && indexPath.row == 1) {

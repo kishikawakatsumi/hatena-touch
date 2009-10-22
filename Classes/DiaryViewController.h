@@ -1,14 +1,13 @@
 #import <UIKit/UIKit.h>
 #import "Diary.h"
 
-@interface DiaryViewController : UITableViewController <UITableViewDataSource , UITextFieldDelegate, UITextViewDelegate,
-UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface DiaryViewController : UIViewController 
+<UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	UITextField *titleField;
 	UITextView *bodyView;
 	UIButton *draftButton;
 	UIButton *submitButton;
 	
-	UITableView *diaryView;
 	UISegmentedControl *toolButtons;
 	
 	NSString *editURI;
@@ -17,7 +16,7 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	NSString *titleTextForEdit;
 	NSString *diaryTextForEdit;
 	
-	Diary *edittingDiary;
+	Diary *editingDiary;
 	NSString *dataFilePath;
 	BOOL shoudSaveOnExit;
 	
@@ -31,7 +30,7 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 @property (nonatomic) BOOL editDraft;
 @property (nonatomic, retain) NSString *titleTextForEdit;
 @property (nonatomic, retain) NSString *diaryTextForEdit;
-@property (nonatomic, retain) Diary *edittingDiary;
+@property (nonatomic, retain) Diary *editingDiary;
 @property (nonatomic, retain) NSString *dataFilePath;
 
 - (void)done:(id)sender;
