@@ -1,189 +1,219 @@
+//
+//  RootViewController.m
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/12.
+//  Copyright Kishikawa Katsumi 2010. All rights reserved.
+//
+
 #import "RootViewController.h"
-#import "HotEntryViewController.h"
-#import "MyBookmarkViewController.h"
-#import "DiaryViewController.h"
 #import "DiaryListViewController.h"
-#import "UserSettingViewController.h"
-#import "HatenaTouchAppDelegate.h"
-#import "Debug.h"
+#import "DiaryViewController.h"
+#import "HotEntryViewController.h"
+#import "RecentEntryViewController.h"
+#import "MyBookmarkViewController.h"
+#import "SettingViewController.h"
+#import "HelpViewController.h"
+#import "UserSettings.h"
 
 @implementation RootViewController
 
-- (BOOL)hasDoneSettings {
-	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
-	UserSettings *userSettings = hatenaTouchApp.userSettings;
-	
-	NSString *userName = userSettings.userName;
-	NSString *password = userSettings.password;
-	
-	BOOL done = NO;
-	if ([userName length] != 0 && [password length] != 0) {
-		done = YES;
-	}
-	return done;
+- (void)dealloc {
+    [super dealloc];
 }
 
-#pragma mark <UITableViewDataSource> Methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 3;
+- (void)loadView {
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 416.0f)];
+    contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view = contentView;
+    [contentView release];
+    
+    listView = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 416.0f)];
+    listView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    listView.delegate = self;
+    listView.dataSource = self;
+    [contentView addSubview:listView];
+    [listView release];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (section == 0) {
-		return 3;
-	} else if (section == 1) {
-		return 2;
-	} else {
-		return 2;
-	}
-	return 0;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = NSLocalizedString(@"AppName", nil);
+    
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:
+                                          [UIImage imageNamed:@"arrow_left_small.png"]
+                                                                          style:UIBarButtonItemStyleBordered
+                                                                         target:nil 
+                                                                         action:nil];
+    [self.navigationItem setBackBarButtonItem:backBarButtonItem];
+    [backBarButtonItem release];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		return NSLocalizedString(@"Edit", nil);
-	} else if (section == 1) {
-		return NSLocalizedString(@"Browse", nil);
-	} else {
-		return NSLocalizedString(@"HelpAndSettings", nil);
-	}
-	return nil;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *identifier = @"MenuListCell";
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:identifier] autorelease];
-	}
-	
-	if (indexPath.section == 0 && indexPath.row == 0) {
-		cell.text = NSLocalizedString(@"New", nil);
-		if ([self hasDoneSettings]) {
-			cell.textColor = [UIColor blackColor];
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		} else {
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.textColor = [UIColor grayColor];
-		}
-	} else if (indexPath.section == 0 && indexPath.row == 1) {
-		cell.text = NSLocalizedString(@"Draft", nil);
-		if ([self hasDoneSettings]) {
-			cell.textColor = [UIColor blackColor];
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		} else {
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.textColor = [UIColor grayColor];
-		}
-	} else if (indexPath.section == 0 && indexPath.row == 2) {
-		cell.text = NSLocalizedString(@"Backnumber", nil);
-		if ([self hasDoneSettings]) {
-			cell.textColor = [UIColor blackColor];
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		} else {
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.textColor = [UIColor grayColor];
-		}
-	} else if (indexPath.section == 1 && indexPath.row == 0) {
-		cell.text = NSLocalizedString(@"HotEntry", nil);
-	} else if (indexPath.section == 1 && indexPath.row == 1) {
-		cell.text = NSLocalizedString(@"MyBookmark", nil);
-		if ([self hasDoneSettings]) {
-			cell.textColor = [UIColor blackColor];
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		} else {
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.textColor = [UIColor grayColor];
-		}
-	} else if (indexPath.section == 2 && indexPath.row == 0) {
-		cell.text = NSLocalizedString(@"Settings", nil);
-	} else if (indexPath.section == 2 && indexPath.row == 1) {
-		cell.text = NSLocalizedString(@"Help", nil);
-	}
-	return cell;
-}
-
-#pragma mark <UITableViewDelegate> Methods
-
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	 if ([self hasDoneSettings] && indexPath.section == 0 && indexPath.row == 0) {
-		 DiaryViewController *controller = [[DiaryViewController alloc] init];
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if ([self hasDoneSettings] && indexPath.section == 0 && indexPath.row == 1) {
-		 DiaryListViewController *controller = [[DiaryListViewController alloc] initWithStyle:UITableViewStylePlain];
-		 controller.title = NSLocalizedString(@"DraftTitle", nil);
-		 controller.draft = YES;
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if ([self hasDoneSettings] && indexPath.section == 0 && indexPath.row == 2) {
-		 DiaryListViewController *controller = [[DiaryListViewController alloc] initWithStyle:UITableViewStylePlain];
-		 controller.title = NSLocalizedString(@"BacknumberTitle", nil);
-		 controller.draft = NO;
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if (indexPath.section == 1 && indexPath.row == 0) {
-		 HotEntryViewController *controller = [[HotEntryViewController alloc] initWithStyle:UITableViewStylePlain];
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if ([self hasDoneSettings] && indexPath.section == 1 && indexPath.row == 1) {
-		 MyBookmarkViewController *controller = [[MyBookmarkViewController alloc] initWithStyle:UITableViewStylePlain];
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if (indexPath.section == 2 && indexPath.row == 0) {
-		 UserSettingViewController *controller = [[UserSettingViewController alloc] initWithStyle:UITableViewStyleGrouped];
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 } else if (indexPath.section == 2 && indexPath.row == 1) {
-		 UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-		 NSBundle *bundle = [NSBundle mainBundle];
-		 NSString *helpFilePath = [bundle pathForResource:@"help" ofType:@"html"];
-		 NSData *data = [NSData dataWithContentsOfFile:helpFilePath];
-		 [webView loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:[NSURL URLWithString:helpFilePath]];
-		 [webView setDelegate:self];
-		 
-		 UIViewController *controller = [[UIViewController alloc] init];
-		 controller.view = webView;
-		 [webView release];
-		 
-		 [[self navigationController] pushViewController:controller animated:YES];
-		 [controller release];
-	 }
-}
-
-#pragma mark <UIWebViewDelegate> Methods
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-		[[UIApplication sharedApplication] openURL:[request URL]];
-		return NO;
-	} else {
-		return YES;
-	}
-}
-
-#pragma mark - Overridden
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	[[self tableView] reloadData];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [listView reloadData];
+    [listView flashScrollIndicators];
+    [listView deselectRowAtIndexPath:[listView indexPathForSelectedRow] animated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    UserSettings *settings = [UserSettings sharedInstance];
+    return settings.shouldAutoRotation;
 }
 
 - (void)didReceiveMemoryWarning {
-	LOG_CURRENT_METHOD;
-	[super didReceiveMemoryWarning];
+    [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-	LOG_CURRENT_METHOD;
-	[self.tableView setDelegate:nil];
-	[super dealloc];
+#pragma mark -
+
+- (BOOL)hasAccountSettings {
+    UserSettings *settings = [UserSettings sharedInstance];
+    
+    NSString *username = settings.userName;
+    NSString *password = settings.password;
+    
+    BOOL done = NO;
+    if ([username length] != 0 && [password length] != 0) {
+        done = YES;
+    }
+    return done;
+}
+
+#pragma mark -
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 3;
+    } else if (section == 1) {
+        return 3;
+    } else {
+        return 2;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return NSLocalizedString(@"Edit", nil);
+    } else if (section == 1) {
+        return NSLocalizedString(@"Browse", nil);
+    } else {
+        return NSLocalizedString(@"HelpAndSettings", nil);
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    NSUInteger section = indexPath.section;
+    NSUInteger row = indexPath.row;
+    
+    if (section == 0 && row == 0) {
+        cell.textLabel.text = NSLocalizedString(@"New", nil);
+        if ([self hasAccountSettings]) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.textLabel.textColor = [UIColor blackColor];
+        } else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+    } else if (section == 0 && row == 1) {
+        cell.textLabel.text = NSLocalizedString(@"Draft", nil);
+        if ([self hasAccountSettings]) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.textLabel.textColor = [UIColor blackColor];
+        } else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+    } else if (section == 0 && row == 2) {
+        cell.textLabel.text = NSLocalizedString(@"Backnumber", nil);
+        if ([self hasAccountSettings]) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.textLabel.textColor = [UIColor blackColor];
+        } else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+    } else if (section == 1 && row == 0) {
+        cell.textLabel.text = NSLocalizedString(@"HotEntry", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.textColor = [UIColor blackColor];
+    } else if (section == 1 && row == 1) {
+        cell.textLabel.text = NSLocalizedString(@"RecentEntry", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.textColor = [UIColor blackColor];
+    } else if (section == 1 && row == 2) {
+        cell.textLabel.text = NSLocalizedString(@"MyBookmark", nil);
+        if ([self hasAccountSettings]) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.textLabel.textColor = [UIColor blackColor];
+        } else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+    } else if (section == 2 && row == 0) {
+        cell.textLabel.text = NSLocalizedString(@"Settings", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.textColor = [UIColor blackColor];
+    } else if (section == 2 && row == 1) {
+        cell.textLabel.text = NSLocalizedString(@"Help", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+    return cell;
+}
+
+#pragma mark -
+#pragma mark Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSUInteger section = indexPath.section;
+    NSUInteger row = indexPath.row;
+    
+    if ([self hasAccountSettings] && section == 0 && row == 0) {
+        DiaryViewController *controller = [[DiaryViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if ([self hasAccountSettings] && section == 0 && row == 1) {
+        DiaryListViewController *controller = [[DiaryListViewController alloc] init];
+        controller.isDraft = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if ([self hasAccountSettings] && section == 0 && row == 2) {
+        DiaryListViewController *controller = [[DiaryListViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if (section == 1 && row == 0) {
+        HotEntryViewController *controller = [[HotEntryViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if (section == 1 && row == 1) {
+        RecentEntryViewController *controller = [[RecentEntryViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if ([self hasAccountSettings] && section == 1 && row == 2) {
+        MyBookmarkViewController *controller = [[MyBookmarkViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if (section == 2 && row == 0) {
+        SettingViewController *controller = [[SettingViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    } else if (section == 2 && row == 1) {
+        HelpViewController *controller = [[HelpViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+    }
 }
 
 @end

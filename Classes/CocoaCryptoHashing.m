@@ -1,39 +1,24 @@
 /*
  * CocoaCryptoHashing.m
  * CocoaCryptoHashing
- * 
- * Copyright (c) 2004-2005 Denis Defreyne
- * Copyright (c) 2008 Chris Verwymeren
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
- * 
- * - Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- * 
- * - The names of its contributors may not be used to endorse or promote
- *   products derived from this software without specific prior written
- *   permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "CocoaCryptoHashing.h"
+
+#if TARGET_OS_MAC && (TARGET_OS_IPHONE || MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4)
+
+#define COMMON_DIGEST_FOR_OPENSSL
+#import <CommonCrypto/CommonDigest.h>
+
+#define MD5(data, len, md)          CC_MD5(data, len, md)
+#define SHA1(data, len, md)         CC_SHA1(data, len, md)
+
+#else
+
+#import <openssl/md5.h>
+#import <openssl/sha.h>
+
+#endif
 
 @implementation NSString (CocoaCryptoHashing)
 
@@ -63,44 +48,44 @@
 
 - (NSString *)md5HexHash
 {
-	unsigned char digest[16];
-	char finaldigest[32];
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	char finaldigest[2*MD5_DIGEST_LENGTH];
 	int i;
 	
 	MD5([self bytes],[self length],digest);
-	for(i=0;i<16;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
+	for(i=0;i<MD5_DIGEST_LENGTH;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
 	
-	return [NSString stringWithCString:finaldigest length:32];
+	return [NSString stringWithCString:finaldigest length:2*MD5_DIGEST_LENGTH];
 }
 
 - (NSData *)md5Hash
 {
-	unsigned char digest[16];
+	unsigned char digest[MD5_DIGEST_LENGTH];
 	
 	MD5([self bytes],[self length],digest);
 	
-	return [NSData dataWithBytes:&digest length:16];
+	return [NSData dataWithBytes:&digest length:MD5_DIGEST_LENGTH];
 }
 
 - (NSString *)sha1HexHash
 {
-	unsigned char digest[20];
-	char finaldigest[40];
+	unsigned char digest[SHA_DIGEST_LENGTH];
+	char finaldigest[2*SHA_DIGEST_LENGTH];
 	int i;
 	
 	SHA1([self bytes],[self length],digest);
-	for(i=0;i<20;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
+	for(i=0;i<SHA_DIGEST_LENGTH;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
 	
-	return [NSString stringWithCString:finaldigest length:40];
+	return [NSString stringWithCString:finaldigest length:2*SHA_DIGEST_LENGTH];
 }
 
 - (NSData *)sha1Hash
 {
-	unsigned char digest[20];
+	unsigned char digest[SHA_DIGEST_LENGTH];
 	
 	SHA1([self bytes],[self length],digest);
 	
-	return [NSData dataWithBytes:&digest length:20];
+	return [NSData dataWithBytes:&digest length:SHA_DIGEST_LENGTH];
 }
 
 @end

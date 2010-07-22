@@ -38,8 +38,6 @@
 	}
 	
 	return result;
-	
-	
 }
 
 + (NSString *) decodeXMLCharactersIn:(NSString *)source {

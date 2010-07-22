@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 
-
 @interface Diary : NSObject {
 	NSString *titleText;
 	NSString *diaryText;

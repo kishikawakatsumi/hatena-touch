@@ -1,6 +1,5 @@
 #import "Diary.h"
 
-
 @implementation Diary
 
 @synthesize titleText;

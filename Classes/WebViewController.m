@@ -1,232 +1,215 @@
+    //
+//  WebViewController.m
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/13.
+//  Copyright 2010 Kishikawa Katsumi. All rights reserved.
+//
+
 #import "WebViewController.h"
-#import "HatenaTouchAppDelegate.h"
-#import "InformationSheetController.h"
-#import "JSON/JSON.h"
-#import "Debug.h"
-#import <objc/runtime.h>
+#import "AddBookmarkViewController.h"
+#import "CommentViewController.h"
+#import "MyBookmarkAPI.h"
+#import "UserSettings.h"
+#import "JSON.h"
+#import "NetworkActivityManager.h"
+
+@interface WebViewController(Private)
+- (NSString *)encodeString:(NSString *)string;
+@end
 
 @implementation WebViewController
 
-@synthesize webView;
-@synthesize backButton;
-@synthesize forwardButton;
-@synthesize pageURL;
-@synthesize lastPageURL;
-
-static NSObject *webViewcreateWebViewWithRequestIMP(id self, SEL _cmd, NSObject* sender, NSObject* request) {
-	return [sender retain];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		UIBarButtonItem *commentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Comment.png"]
-																	   style:UIBarButtonItemStyleBordered target:self action:@selector(showInfoMenu)];
-		[[self navigationItem] setRightBarButtonItem:commentButton];
-		[commentButton release];
-	}
-	return self;
-}
-
 - (void)dealloc {
-	LOG_CURRENT_METHOD;
-	[lastPageURL release];
-	[pageURL release];
-	[forwardButton release];
-	[backButton release];
-	[webView setDelegate:nil];
-	[webView release];
-	[super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
+    self.pageURL = nil;
+    self.comments = nil;
+    self.connection = nil;
+    self.receivedData = nil;
+    [super dealloc];
 }
 
-- (void)_loadPageInfo {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSURL *webServiceURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://b.hatena.ne.jp/entry/jsonlite/%@", pageURL]];
-	NSURLRequest *req = [NSURLRequest requestWithURL:webServiceURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:30];
-	
-	NSData *data;
-	NSHTTPURLResponse *res;
-	NSError *error;
-	data = [NSURLConnection sendSynchronousRequest:req returningResponse:&res error:&error];
-
-	NSString *json = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-	pageInfo = [[json JSONValue] retain];
-	
-	[[[self navigationItem] rightBarButtonItem] setEnabled:YES];
-	
-	[pool release];
+- (void)loadView {
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 416.0f)];
+    contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view = contentView;
+    [contentView release];
+    
+    web = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 372.0f)];
+    web.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+    web.delegate = self;
+    web.scalesPageToFit = YES;
+    [contentView addSubview:web];
+    [web release];
+    
+    commentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comments_small.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(showComments:)];
+    commentButton.enabled = NO;
+    [self.navigationItem setRightBarButtonItem:commentButton animated:NO];
+    [commentButton release];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 372.0f, 320.0f, 44.0f)];
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
+    [contentView addSubview:toolbar];
+    [toolbar release];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NavBack.png"] style:UIBarButtonItemStylePlain target:web action:@selector(goBack)];
+    UIBarButtonItem *forwardButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NavForward.png"] style:UIBarButtonItemStylePlain target:web action:@selector(goForward)];
+    UIBarButtonItem *reloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:web action:@selector(reload)];
+    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:web action:@selector(stopLoading)];
+    UIBarButtonItem *bookmarkButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"bookmark_small.png"] style:UIBarButtonItemStylePlain target:self action:@selector(bookmark:)];
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:nil action:nil];
+    
+    [toolbar setItems:[NSArray arrayWithObjects:flexibleSpace, backButton, flexibleSpace, forwardButton, flexibleSpace, reloadButton, flexibleSpace, stopButton, flexibleSpace, bookmarkButton, flexibleSpace, actionButton, flexibleSpace, nil] animated:NO];
+    
+    [flexibleSpace release];
+    [backButton release];
+    [forwardButton release];
+    [reloadButton release];
+    [bookmarkButton release];
+    [actionButton release];
+    [stopButton release];
 }
-
-- (void)_loadPageInfo:(id)timer {
-	NSURL *aURL = [webView.request mainDocumentURL];
-	if (!aURL) {
-		return;
-	}
-	[NSThread detachNewThreadSelector:@selector(_loadPageInfo) toTarget:self withObject:nil];
-	[timer invalidate];
-}
-
-- (void)showInfoMenu {
-	isInfoMenuPresent = YES;
-	InformationSheetController *controller = [[InformationSheetController alloc] initWithNibName:@"InformationSheet" bundle:nil];
-	
-	controller.pageInfo = pageInfo;
-	controller.bookmarks = [pageInfo objectForKey:@"bookmarks"];
-	
-	[self presentModalViewController:controller animated:YES];
-	[controller release];
-}
-
-- (void)startLoading {
-	if ([pageURL isEqualToString:lastPageURL] && loadFinishedSuccesefully) {
-		return;
-	}
-	
-	self.lastPageURL = pageURL;
-
-	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
-	UserSettings *userSettings = hatenaTouchApp.userSettings;
-	NSURL *url;
-	if (userSettings.useMobileProxy) {
-		url = [NSURL URLWithString:[[NSString stringWithFormat:@"http://www.google.co.jp/gwt/n?u=%@", pageURL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	} else {
-		url = [NSURL URLWithString:pageURL];
-	}
-
-	[webView loadRequest:[NSURLRequest requestWithURL:url]];
-}
-
-- (IBAction)actionButtonPushed:(id)sender {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:NSLocalizedString(@"ReloadThisPage", nil)
-								  delegate:self
-								  cancelButtonTitle:NSLocalizedString(@"Cancel", nil) 
-								  destructiveButtonTitle:nil
-								  otherButtonTitles:
-								  NSLocalizedString(@"DirectAccess", nil),
-								  NSLocalizedString(@"WithMobileProxy", nil),
-								  NSLocalizedString(@"OpenSafari", nil), nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showInView:self.view];
-	[actionSheet release];
-}
-
-#pragma mark <UIActionSheetDelegate> Methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	LOG(@"action button pushed: %d", buttonIndex);
-	if (buttonIndex == 0) {
-		[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:pageURL]]];
-	} else if (buttonIndex == 1) {
-		[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[[NSString stringWithFormat:@"http://www.google.co.jp/gwt/n?u=%@", pageURL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
-	} else if (buttonIndex == 2) {
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:pageURL]];
-	}
-}
-
-#pragma mark <UIWebViewDelegate> Methods
-
-- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	NSString *aURL = [[request URL] absoluteString];
-	NSString *mainDocumentURL = [request.mainDocumentURL absoluteString];
-	if (mainDocumentURL == nil || ![mainDocumentURL isEqualToString:aURL]) {
-		return NO;
-	}
-	
-	if (navigationType == UIWebViewNavigationTypeLinkClicked ||
-		navigationType == UIWebViewNavigationTypeFormSubmitted ||
-		navigationType == UIWebViewNavigationTypeBackForward ||
-		navigationType == UIWebViewNavigationTypeFormResubmitted) {
-		self.lastPageURL = mainDocumentURL;
-	}
-	
-	LOG(@"<%@>", [request URL]);
-    return YES;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)aWebView {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
-	backButton.enabled = (webView.canGoBack) ? YES : NO;
-    forwardButton.enabled = (webView.canGoForward) ? YES : NO;
-	
-	LOG_CURRENT_METHOD;
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)aWebView {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	loadFinishedSuccesefully = YES;
-	
-	backButton.enabled = (webView.canGoBack) ? YES : NO;
-    forwardButton.enabled = (webView.canGoForward) ? YES : NO;
-	
-	self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
-	
-	LOG_CURRENT_METHOD;
-}
-
-- (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	loadFinishedSuccesefully = NO;
-	
-	backButton.enabled = (webView.canGoBack) ? YES : NO;
-    forwardButton.enabled = (webView.canGoForward) ? YES : NO;
-	
-	LOG_CURRENT_METHOD;
-}
-
-#pragma mark <UIViewController> Methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[webView setBackgroundColor:[UIColor whiteColor]];
-	Class UIWebViewWebViewDelegate = objc_getClass("UIWebViewWebViewDelegate");
-	class_addMethod(UIWebViewWebViewDelegate, @selector(webView:createWebViewWithRequest:), 
-					(IMP)webViewcreateWebViewWithRequestIMP, "@@:@@");
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	if (isInfoMenuPresent) {
-		isInfoMenuPresent = NO;
-		return;
-	}
-    [super viewWillAppear:animated];
-	
-	backButton.enabled = (webView.canGoBack) ? true : false;
-    forwardButton.enabled = (webView.canGoForward) ? true : false;
-	
-	[self startLoading];
-	[[[self navigationItem] rightBarButtonItem] setEnabled:NO];
-	[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(_loadPageInfo:) userInfo:nil repeats:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	if (isInfoMenuPresent) {
-		return;
-	}
-	[super viewWillDisappear:animated];
-	[webView stopLoading];
-	[pageInfo release];
-	pageInfo = nil;
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	if (fromInterfaceOrientation == UIDeviceOrientationIsPortrait(fromInterfaceOrientation)) {
-		[self.navigationController setNavigationBarHidden:YES animated:YES];
-	} else {
-		[self.navigationController setNavigationBarHidden:NO animated:YES];
-	}
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    titleView = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 45.0f, 200.0f, 36.0f)];
+    titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    titleView.backgroundColor = [UIColor clearColor];
+    titleView.textAlignment = UITextAlignmentCenter;
+    titleView.textColor = [UIColor whiteColor];
+    titleView.shadowColor = [UIColor darkGrayColor];
+    titleView.shadowOffset = CGSizeMake(0.0f, -1.0f);
+    titleView.font = [UIFont boldSystemFontOfSize:14.0f];
+    titleView.numberOfLines = 2;
+    self.navigationItem.titleView = titleView;
+    [titleView release];
+    
+    UserSettings *settings = [UserSettings sharedInstance];
+    if (settings.useMobileProxy) {
+        [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://instapaper.com/m?u=%@", [self encodeString:self.pageURL]]] 
+                                                               cachePolicy:NSURLRequestReturnCacheDataElseLoad 
+                                                           timeoutInterval:20.0]];
+    } else {
+        [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.pageURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0]];
+    }
+    
+    self.connection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://b.hatena.ne.jp/entry/jsonlite/?url=%@", self.pageURL]] 
+                                                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad 
+                                                                          timeoutInterval:20.0] delegate:self];
+    [self.connection start];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	HatenaTouchAppDelegate *hatenaTouchApp = [HatenaTouchAppDelegate sharedHatenaTouchApp];
-	UserSettings *userSettings = hatenaTouchApp.userSettings;
-	return userSettings.shouldAutoRotation;
+    UserSettings *settings = [UserSettings sharedInstance];
+    return settings.shouldAutoRotation;
 }
 
 - (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark -
+
+- (NSString *)encodeString:(NSString *)string {
+    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, 
+                                                                           (CFStringRef)string, 
+                                                                           NULL, 
+                                                                           (CFStringRef)@";/?:@&=$+{}<>,",
+                                                                           kCFStringEncodingUTF8);
+    return [result autorelease];
+}
+
+#pragma mark -
+
+- (void)showComments:(id)sender {
+    CommentViewController *controller = [[CommentViewController alloc] init];
+    controller.data = self.comments;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [controller release];
+    
+    [self presentModalViewController:navigationController animated:YES];
+    [navigationController release];
+}
+
+- (void)bookmark:(id)sender {
+    AddBookmarkViewController *controller = [[AddBookmarkViewController alloc] init];
+    controller.pageTitle = titleView.text;
+    controller.pageURL = self.pageURL;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [controller release];
+    
+    [self presentModalViewController:navigationController animated:YES];
+    [navigationController release];
+}
+
+#pragma mark -
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [[NetworkActivityManager sharedInstance] pushActivity:NSStringFromClass([self class])];
+    titleView.text = self.pageURL;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
+    titleView.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title;"];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
+    
+    alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
+                                       message:[NSString stringWithFormat:@"%@", [error localizedDescription]] 
+                                      delegate:self 
+                             cancelButtonTitle:nil 
+                             otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+    [alert show];
+    [alert release];
+}
+
+#pragma mark -
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    self.receivedData = [NSMutableData data];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSString *JSON = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    self.comments = [JSON JSONValue];
+    if (self.comments) {
+        commentButton.enabled = YES;
+    }
+    [JSON release];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    self.receivedData = nil;
+}
+
+#pragma mark -
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    alert = nil;
+}
+
+- (void)applicationDidEnterBackground:(NSNotification *)note {
+    [alert dismissWithClickedButtonIndex:0 animated:NO];
+    alert = nil;
 }
 
 @end

@@ -1,10 +1,14 @@
 //
 // Prefix header for all source files of the 'HatenaTouch' target in the 'HatenaTouch' project
 //
+#import <Availability.h>
 
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-	#import <UIKit/UIKit.h>
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
 #endif
 
-#define IPHONE_OS_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif

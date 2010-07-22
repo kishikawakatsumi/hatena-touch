@@ -1,22 +1,33 @@
+//
+//  DiaryListViewController.h
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/17.
+//  Copyright 2010 Kishikawa Katsumi. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
 
+@class DiaryFeedParser, DiaryUploader;
 
-@interface DiaryListViewController : UITableViewController <UIActionSheetDelegate> {
-	UITableView *diaryListView;
-	NSMutableArray *diaryList;
-	NSInteger page;
-	NSDateFormatter *dateFormatter1;
-	NSDateFormatter *dateFormatter2;
-	
-	BOOL draft;
-	BOOL forceReload;
+@interface DiaryListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {    
+    NSMutableArray *data;
+    NSInteger page;
+    BOOL loading;
+    BOOL hasMoreData;
+    
+    UITableView *listView;
+    UIView *blockView;
+    UIImageView *dotImageView;
+    UIActivityIndicatorView *activityIndicator;
+    UIActionSheet *sheet;
+    UIAlertView *alert;
 }
 
-@property (nonatomic, retain) UITableView *diaryListView;
-@property (retain) NSMutableArray *diaryList;
-@property (nonatomic, getter=isDraft) BOOL draft;
-@property (nonatomic) BOOL forceReload;
+@property (nonatomic, retain) DiaryFeedParser *parser;
+@property (nonatomic, retain) DiaryUploader *uploader;
+@property (nonatomic, assign) BOOL isDraft;
 
-- (void)addDiaryList:(id)entry;
+@property (nonatomic, retain) NSIndexPath *targetIndexPath;
 
 @end

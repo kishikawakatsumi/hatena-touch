@@ -10,12 +10,12 @@ typedef enum {
 } UserSettingsImageSize;
 
 @interface UserSettings : NSObject <NSCoding> {
-	NSInteger version;
-	NSString *userName;
-	NSString *password;
-	UserSettingsImageSize imageSize;
-	BOOL useMobileProxy;
-	BOOL shouldAutoRotation;
+    NSInteger version;
+    NSString *userName;
+    NSString *password;
+    UserSettingsImageSize imageSize;
+    BOOL useMobileProxy;
+    BOOL shouldAutoRotation;
 }
 
 @property (nonatomic) NSInteger version;
@@ -24,5 +24,9 @@ typedef enum {
 @property (nonatomic) UserSettingsImageSize imageSize;
 @property (nonatomic) BOOL useMobileProxy;
 @property (nonatomic) BOOL shouldAutoRotation;
+
++ (UserSettings *)sharedInstance;
++ (void)loadSettings;
++ (void)saveSettings;
 
 @end

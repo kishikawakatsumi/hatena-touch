@@ -2,16 +2,16 @@
 //  main.m
 //  HatenaTouch
 //
-//  Created by 岸川 克己 on 08/09/06.
-//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//  Created by Kishikawa Katsumi on 10/07/12.
+//  Copyright Kishikawa Katsumi 2010. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 int main(int argc, char *argv[]) {
-	
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	int retVal = UIApplicationMain(argc, argv, nil, nil);
-	[pool release];
-	return retVal;
+    
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    int retVal = UIApplicationMain(argc, argv, nil, nil);
+    [pool release];
+    return retVal;
 }

@@ -1,27 +1,21 @@
+//
+//  HatenaTouchAppDelegate.h
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/12.
+//  Copyright Kishikawa Katsumi 2010. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
-#import "UserSettings.h"
-#import "WebViewController.h"
+#import "Reachability.h"
 
 @interface HatenaTouchAppDelegate : NSObject <UIApplicationDelegate> {
-	IBOutlet UIWindow *window;
-	IBOutlet UINavigationController *navigationController;
-	UserSettings *userSettings;
-	NSString *dataFilePath;
-	WebViewController *sharedWebViewController;
-	UIImagePickerController *sharedPickerController;
-	NSMutableDictionary *listOfRead;
+    UIWindow *window;
+    UINavigationController *navigationController;
 }
 
-@property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) UINavigationController *navigationController;
-@property (nonatomic, retain) UserSettings *userSettings;
-@property (nonatomic, retain) NSString *dataFilePath;
-@property (retain, readonly) WebViewController *sharedWebViewController;
-@property (retain, readonly) UIImagePickerController *sharedPickerController;
-@property (nonatomic, retain) NSMutableDictionary *listOfRead;
-
-+ (HatenaTouchAppDelegate *)sharedHatenaTouchApp;
-- (void)saveUserSettings;
+@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 @end
 

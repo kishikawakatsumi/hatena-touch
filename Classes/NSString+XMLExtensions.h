@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface NSString(XMLExtensions) 
 
 + (NSString *)encodeXMLCharactersIn:(NSString *)source;

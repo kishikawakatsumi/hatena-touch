@@ -1,19 +1,24 @@
+//
+//  HotEntryViewController.h
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/12.
+//  Copyright 2010 Kishikawa Katsumi. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
 
-@interface HotEntryViewController : UITableViewController {
-	UITableView *hotEntryView;
-	NSMutableArray *hotEntries;
-	NSMutableArray *featuredEntries;
-	NSIndexPath *selectedRow;
-	NSUInteger finishCount;
+@class HatenaRSSParser;
+
+@interface HotEntryViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
+    NSMutableArray *currentData;
+    NSMutableDictionary *data;
+    NSMutableDictionary *parsers;
+    
+    UITableView *listView;
+    UIImageView *dotImageView;
+    UIActivityIndicatorView *activityIndicator;
+    UIAlertView *alert;
 }
-
-@property (nonatomic, retain) UITableView *hotEntryView;
-@property (retain) NSMutableArray *hotEntries;
-@property (retain) NSMutableArray *featuredEntries;
-@property (nonatomic, retain) NSIndexPath *selectedRow;
-
-- (void)addHotEntry:(id)entry;
-- (void)addFeaturedEntry:(id)entry;
 
 @end

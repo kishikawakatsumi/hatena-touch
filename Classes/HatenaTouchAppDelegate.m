@@ -1,121 +1,47 @@
+//
+//  HatenaTouchAppDelegate.m
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/12.
+//  Copyright Kishikawa Katsumi 2010. All rights reserved.
+//
+
 #import "HatenaTouchAppDelegate.h"
 #import "RootViewController.h"
-#import "Reachability.h"
-#import "Debug.h"
+#import "UserSettings.h"
 
 @implementation HatenaTouchAppDelegate
 
-static HatenaTouchAppDelegate *hatenaTouchApp = NULL;
-
 @synthesize window;
 @synthesize navigationController;
-@synthesize userSettings;
-@synthesize dataFilePath;
-@synthesize sharedWebViewController;
-@synthesize sharedPickerController;
-@synthesize listOfRead;
 
-- (id)init {
-	LOG_CURRENT_METHOD;
-	if (!hatenaTouchApp) {
-		hatenaTouchApp = [super init];
-		listOfRead = [[NSMutableDictionary alloc] init];
-	}
-	return hatenaTouchApp;
-}
+#pragma mark -
+#pragma mark Application lifecycle
 
-+ (HatenaTouchAppDelegate *)sharedHatenaTouchApp {
-	if (!hatenaTouchApp) {
-		hatenaTouchApp = [[HatenaTouchAppDelegate alloc] init];
-	}
-	return hatenaTouchApp;
-}
-
-- (WebViewController *)sharedWebViewController {
-	if (!sharedWebViewController) {
-		sharedWebViewController = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
-		sharedWebViewController.view.autoresizesSubviews = YES;
-		sharedWebViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	}
-	return sharedWebViewController;
-}
-
-- (UIImagePickerController *)sharedPickerController {
-	if (!sharedPickerController) {
-		sharedPickerController = [[UIImagePickerController alloc] init];
-	}
-	return sharedPickerController;
-}
-
-- (NSString *)documentDirectory {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentDirectory = [paths objectAtIndex:0];
-	return documentDirectory;
-}
-
-- (void)loadUserSettings {
-	LOG_CURRENT_METHOD;
-	self.dataFilePath = [[self documentDirectory] stringByAppendingPathComponent:@"UserSettings.dat"];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if ([fileManager fileExistsAtPath:dataFilePath]) {
-		NSMutableData *theData  = [NSMutableData dataWithContentsOfFile:dataFilePath];
-		NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:theData];
-		self.userSettings = [decoder decodeObjectForKey:@"userSettings"];
-		
-		[decoder finishDecoding];
-		[decoder release];
-		
-		if (userSettings.version != CURRENT_VERSION) {
-			LOG(@"migrate settings.");
-			UserSettings *newSettings = [[UserSettings alloc] init];
-			newSettings.version = CURRENT_VERSION;
-			newSettings.userName = userSettings.userName;
-			newSettings.password = userSettings.password;
-			newSettings.imageSize = userSettings.imageSize;
-			newSettings.useMobileProxy = userSettings.useMobileProxy;
-			newSettings.shouldAutoRotation = YES;
-			self.userSettings = newSettings;
-		}
-	} else {
-		self.userSettings = [[UserSettings alloc] init];
-	}	
-}
-
-- (void)saveUserSettings {
-	LOG_CURRENT_METHOD;
-	NSMutableData *theData = [NSMutableData data];
-	NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:theData];
-	[encoder encodeObject:userSettings forKey:@"userSettings"];
-	[encoder finishEncoding];
-	[theData writeToFile:dataFilePath atomically:YES];
-	[encoder release];
-}
-
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-	LOG_CURRENT_METHOD;
-	[self loadUserSettings];
-	
-	[[Reachability sharedReachability] setHostName:@"www.hatena.ne.jp"];
-	[[Reachability sharedReachability] remoteHostStatus];
-	
-	[window addSubview:[navigationController view]];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[window makeKeyAndVisible];
+    
+    [window addSubview:navigationController.view];
+    [window makeKeyAndVisible];
+    
+    return YES;
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [UserSettings saveSettings];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	LOG_CURRENT_METHOD;
-	[self saveUserSettings];
+    [UserSettings saveSettings];
 }
 
+#pragma mark -
+#pragma mark Memory management
+
 - (void)dealloc {
-	LOG_CURRENT_METHOD;
-	[listOfRead release];
-	[sharedWebViewController release];
-	[dataFilePath release];
-	[userSettings release];
-	[navigationController release];
-	[window release];
-	[super dealloc];
+    [navigationController release];
+    [window release];
+    [super dealloc];
 }
 
 @end

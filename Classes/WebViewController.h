@@ -1,25 +1,24 @@
-#import <UIKit/UIKit.h>
-#import "HttpClient.h"
+//
+//  WebViewController.h
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/13.
+//  Copyright 2010 Kishikawa Katsumi. All rights reserved.
+//
 
-@interface WebViewController : UIViewController <UIWebViewDelegate, UIActionSheetDelegate> {
-	IBOutlet UIWebView *webView;
-	IBOutlet UIBarButtonItem *backButton;
-	IBOutlet UIBarButtonItem *forwardButton;
-	
-	NSString *pageURL;
-	NSString *lastPageURL;
-	BOOL loadFinishedSuccesefully;
-	
-	NSDictionary *pageInfo;
-	BOOL isInfoMenuPresent;
+#import <UIKit/UIKit.h>
+
+@interface WebViewController : UIViewController<UIWebViewDelegate> {
+    UIWebView *web;
+    UILabel *titleView;
+    UIBarButtonItem *commentButton;
+    
+    UIAlertView *alert;
 }
 
-@property (nonatomic, retain) UIWebView *webView;
-@property (nonatomic, retain) UIBarButtonItem *backButton;
-@property (nonatomic, retain) UIBarButtonItem *forwardButton;
 @property (nonatomic, retain) NSString *pageURL;
-@property (nonatomic, retain) NSString *lastPageURL;
-
-- (IBAction)actionButtonPushed:(id)sender;
+@property (nonatomic, retain) NSDictionary *comments;
+@property (nonatomic, retain) NSURLConnection *connection;
+@property (nonatomic, retain) NSMutableData *receivedData;
 
 @end

@@ -1,13 +1,18 @@
+//
+//  DiaryCell.h
+//  HatenaTouch
+//
+//  Created by Kishikawa Katsumi on 10/07/17.
+//  Copyright 2010 Kishikawa Katsumi. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
 
 @interface DiaryCell : UITableViewCell {
-	IBOutlet UITextView *diaryTextView;
-	IBOutlet UIButton *submitButton;
-	IBOutlet UIButton *draftButton;
+    UIView *cellContentView;
 }
 
-@property (nonatomic, retain) UITextView *diaryTextView;
-@property (nonatomic, retain) UIButton *submitButton;
-@property (nonatomic, retain) UIButton *draftButton;
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *date;
 
 @end
