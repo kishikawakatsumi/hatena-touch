@@ -78,7 +78,6 @@
 		14F66C2E11F4C991009A123B /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C2C11F4C991009A123B /* Icon-Small@2x.png */; };
 		14F66C5511F4CD02009A123B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C5311F4CD02009A123B /* Default@2x.png */; };
 		14F66C5611F4CD02009A123B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C5411F4CD02009A123B /* Default.png */; };
-		14FD31E5129039DC001CF960 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */; };
 		14FD323F12903EE9001CF960 /* WBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD323E12903EE9001CF960 /* WBImage.m */; };
 		1D3623260D0F684500981E51 /* HatenaTouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HatenaTouchAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -203,8 +202,6 @@
 		14F66C2C11F4C991009A123B /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		14F66C5311F4CD02009A123B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		14F66C5411F4CD02009A123B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		14FD31E3129039DC001CF960 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
-		14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
 		14FD323D12903EE9001CF960 /* WBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImage.h; sourceTree = "<group>"; };
 		14FD323E12903EE9001CF960 /* WBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImage.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -282,7 +279,6 @@
 				14896FF811F23D850013EBEC /* NSString+XMLExtensions */,
 				14896D2A11F1D6C20013EBEC /* NSData+Base64 */,
 				14896B2211F141370013EBEC /* CocoaCryptoHashing */,
-				148970EC11F24EBF0013EBEC /* MGImageUtilities */,
 				1467AC1211EB988700A5E334 /* JSON */,
 				14358EF711F7EEDB00D5F86D /* Reachability */,
 			);
@@ -425,15 +421,6 @@
 				14896FF611F23D6A0013EBEC /* NSString+XMLExtensions.m */,
 			);
 			name = "NSString+XMLExtensions";
-			sourceTree = "<group>";
-		};
-		148970EC11F24EBF0013EBEC /* MGImageUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				14FD31E3129039DC001CF960 /* UIImage+ProportionalFill.h */,
-				14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */,
-			);
-			name = MGImageUtilities;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -623,7 +610,6 @@
 				14358EF511F7EED500D5F86D /* Reachability.m in Sources */,
 				14358F1B11F7F38E00D5F86D /* InternetReachability.m in Sources */,
 				14358F6511F7F5F800D5F86D /* HelpViewController.m in Sources */,
-				14FD31E5129039DC001CF960 /* UIImage+ProportionalFill.m in Sources */,
 				14FD323F12903EE9001CF960 /* WBImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

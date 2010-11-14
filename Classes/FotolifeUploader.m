@@ -12,7 +12,6 @@
 #import "UserSettings.h"
 #import "NSData+Base64.h"
 #import "WBImage.h"
-#import "UIImage+ProportionalFill.h"
 
 @implementation FotolifeUploader
 
@@ -63,8 +62,7 @@
 		default:
 			break;
 	}
-    
-//    uploadImage = [image imageScaledToFitSize:imageSize];
+
     uploadImage = [image rotateAndScaleFromCameraWithMaxSize:MAX(imageSize.width, imageSize.height)];
     
     HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
