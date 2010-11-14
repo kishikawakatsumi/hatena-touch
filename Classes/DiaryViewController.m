@@ -659,7 +659,7 @@ static inline NSString *getName(const char *hax3d, int length) {
 
 - (void)parserFinished:(HatenaAtomPubResponseParser *)parser {
     titleField.text = self.titleTextForEdit;
-    bodyTextView.text = [NSString stringWithFormat:@"[%@]\n", [parser.entry objectForKey:@"syntax"]];
+    bodyTextView.text = [NSString stringWithFormat:@"%@", [parser.entry objectForKey:@"syntax"]];
     
     clearButton.enabled = [titleField.text length] > 0 || [bodyTextView.text length] > 0;
     draftButton.enabled = submitButton.enabled = [titleField.text length] > 0 && [bodyTextView.text length] > 0;
@@ -721,7 +721,7 @@ static inline NSString *getName(const char *hax3d, int length) {
 #pragma mark -
 
 - (void)imageUploader:(FotolifeUploader *)uploader uploadFinished:(id)responseData {
-    [self insertSyntax:[responseData objectForKey:@"syntax"]];
+    [self insertSyntax:[NSString stringWithFormat:@"[%@]", [responseData objectForKey:@"syntax"]]];
     
     [self enableUserInteraction];
     
