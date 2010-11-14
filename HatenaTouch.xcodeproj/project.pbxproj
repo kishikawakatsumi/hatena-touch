@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14043E1E120B432400262EC8 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 14043E1D120B432400262EC8 /* UIImage+ProportionalFill.m */; };
 		142595B311F27435005024A9 /* FotolifeUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 142595B211F27435005024A9 /* FotolifeUploader.m */; };
 		1425960A11F27B9A005024A9 /* DiaryUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1425960911F27B9A005024A9 /* DiaryUploader.m */; };
 		14358EF511F7EED500D5F86D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 14358EF411F7EED500D5F86D /* Reachability.m */; };
@@ -79,6 +78,8 @@
 		14F66C2E11F4C991009A123B /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C2C11F4C991009A123B /* Icon-Small@2x.png */; };
 		14F66C5511F4CD02009A123B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C5311F4CD02009A123B /* Default@2x.png */; };
 		14F66C5611F4CD02009A123B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F66C5411F4CD02009A123B /* Default.png */; };
+		14FD31E5129039DC001CF960 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */; };
+		14FD323F12903EE9001CF960 /* WBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD323E12903EE9001CF960 /* WBImage.m */; };
 		1D3623260D0F684500981E51 /* HatenaTouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HatenaTouchAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -89,8 +90,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14043E1C120B432400262EC8 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
-		14043E1D120B432400262EC8 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
 		142595B111F27435005024A9 /* FotolifeUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FotolifeUploader.h; sourceTree = "<group>"; };
 		142595B211F27435005024A9 /* FotolifeUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FotolifeUploader.m; sourceTree = "<group>"; };
 		1425960811F27B9A005024A9 /* DiaryUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiaryUploader.h; sourceTree = "<group>"; };
@@ -204,6 +203,10 @@
 		14F66C2C11F4C991009A123B /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		14F66C5311F4CD02009A123B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		14F66C5411F4CD02009A123B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		14FD31E3129039DC001CF960 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
+		14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
+		14FD323D12903EE9001CF960 /* WBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImage.h; sourceTree = "<group>"; };
+		14FD323E12903EE9001CF960 /* WBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImage.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* HatenaTouchAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HatenaTouchAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* HatenaTouchAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HatenaTouchAppDelegate.m; sourceTree = "<group>"; };
@@ -271,6 +274,8 @@
 				14896D0611F162B20013EBEC /* NetworkActivityManager.m */,
 				14358F1911F7F38E00D5F86D /* InternetReachability.h */,
 				14358F1A11F7F38E00D5F86D /* InternetReachability.m */,
+				14FD323D12903EE9001CF960 /* WBImage.h */,
+				14FD323E12903EE9001CF960 /* WBImage.m */,
 				14896FF211F234F30013EBEC /* Views */,
 				14896FF011F234D70013EBEC /* API */,
 				14896FF111F234E40013EBEC /* Data Models */,
@@ -425,8 +430,8 @@
 		148970EC11F24EBF0013EBEC /* MGImageUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				14043E1C120B432400262EC8 /* UIImage+ProportionalFill.h */,
-				14043E1D120B432400262EC8 /* UIImage+ProportionalFill.m */,
+				14FD31E3129039DC001CF960 /* UIImage+ProportionalFill.h */,
+				14FD31E4129039DC001CF960 /* UIImage+ProportionalFill.m */,
 			);
 			name = MGImageUtilities;
 			sourceTree = "<group>";
@@ -618,7 +623,8 @@
 				14358EF511F7EED500D5F86D /* Reachability.m in Sources */,
 				14358F1B11F7F38E00D5F86D /* InternetReachability.m in Sources */,
 				14358F6511F7F5F800D5F86D /* HelpViewController.m in Sources */,
-				14043E1E120B432400262EC8 /* UIImage+ProportionalFill.m in Sources */,
+				14FD31E5129039DC001CF960 /* UIImage+ProportionalFill.m in Sources */,
+				14FD323F12903EE9001CF960 /* WBImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

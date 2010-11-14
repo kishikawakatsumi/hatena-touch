@@ -11,6 +11,7 @@
 #import "HatenaAtomPub.h"
 #import "UserSettings.h"
 #import "NSData+Base64.h"
+#import "WBImage.h"
 #import "UIImage+ProportionalFill.h"
 
 @implementation FotolifeUploader
@@ -45,25 +46,26 @@
     UIImage *uploadImage = nil;
     
     UserSettings *settings = [UserSettings sharedInstance];
-    CGSize imageSize = CGSizeMake(320.0f, 480.0f);
+    CGSize imageSize = image.size;
 	switch (settings.imageSize) {
 		case UserSettingsImageSizeSmall:
-			imageSize = CGSizeMake(160.0f, 240.0f);;
+			imageSize = CGSizeMake(160.0f, 240.0f);
 			break;
 		case UserSettingsImageSizeMedium:
-			imageSize = CGSizeMake(320.0f, 480.0f);;
+			imageSize = CGSizeMake(320.0f, 480.0f);
 			break;
 		case UserSettingsImageSizeLarge:
-			imageSize = CGSizeMake(480.0f, 720.0f);;
+			imageSize = CGSizeMake(480.0f, 720.0f);
 			break;
 		case UserSettingsImageSizeExtraLarge:
-			imageSize = CGSizeMake(640.0f, 960.0f);;
+			imageSize = CGSizeMake(640.0f, 960.0f);
 			break;
 		default:
 			break;
 	}
     
-    uploadImage = [image imageScaledToFitSize:imageSize];
+//    uploadImage = [image imageScaledToFitSize:imageSize];
+    uploadImage = [image rotateAndScaleFromCameraWithMaxSize:MAX(imageSize.width, imageSize.height)];
     
     HatenaAtomPub *atomPub = [[HatenaAtomPub alloc] init];
 	NSMutableURLRequest *request = [atomPub makeRequestWithURI:@"http://f.hatena.ne.jp/atom/post" method:@"POST"];

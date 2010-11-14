@@ -7,6 +7,7 @@ typedef enum {
     UserSettingsImageSizeMedium = 1,
     UserSettingsImageSizeLarge = 2,
     UserSettingsImageSizeExtraLarge = 3,
+    UserSettingsImageSizeOriginal = 4,
 } UserSettingsImageSize;
 
 @interface UserSettings : NSObject <NSCoding> {

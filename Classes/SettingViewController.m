@@ -149,9 +149,15 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ImageSizeCell"] autorelease];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            UISegmentedControl *imageSizeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"S", @"M", @"L", @"XL", nil]];
+            UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
+            transparentBackground.backgroundColor = [UIColor clearColor];
+            cell.backgroundView = transparentBackground;
+            [transparentBackground release];
+            
+            UISegmentedControl *imageSizeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"S", @"M", @"L", @"XL", NSLocalizedString(@"Original", nil), nil]];
+            imageSizeSegment.segmentedControlStyle = UISegmentedControlStyleBar;
             imageSizeSegment.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            imageSizeSegment.frame = CGRectMake(9.0f, 0.0f, 302.0f, 46.0f);
+            imageSizeSegment.frame = CGRectMake(9.0f, 7.0f, 302.0f, 30.0f);
             imageSizeSegment.selectedSegmentIndex = settings.imageSize;
             [imageSizeSegment addTarget:self action:@selector(imageSizeChanged:) forControlEvents:UIControlEventValueChanged];
             
