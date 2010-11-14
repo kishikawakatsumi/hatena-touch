@@ -121,7 +121,9 @@ static NSArray *feedURLs;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
     
     self.title = NSLocalizedString(@"HotEntry", nil);
     
@@ -160,17 +162,6 @@ static NSArray *feedURLs;
 #pragma mark -
 
 - (void)cateoryChanged:(id)sender {
-    if (![[InternetReachability sharedInstance] isReachableInternet]) {
-        alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
-                                           message:NSLocalizedString(@"No internet connection.", nil) 
-                                          delegate:self 
-                                 cancelButtonTitle:nil 
-                                 otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
     UISegmentedControl *control = (UISegmentedControl *)sender;
     NSInteger index = control.selectedSegmentIndex;
     

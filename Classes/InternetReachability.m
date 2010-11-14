@@ -37,15 +37,15 @@ static InternetReachability *sharedInstance;
 - (void)reachabilityChanged:(NSNotification *)note {
 	Reachability *reachability = [note object];
     NetworkStatus netStatus = [reachability currentReachabilityStatus];
-//    if (netStatus == NotReachable) {
-//        alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
-//                                           message:NSLocalizedString(@"No internet connection.", nil) 
-//                                          delegate:self 
-//                                 cancelButtonTitle:nil 
-//                                 otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-//        [alert show];
-//        [alert release];
-//    }
+    if (netStatus == NotReachable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
+                                                        message:NSLocalizedString(@"No internet connection.", nil) 
+                                                       delegate:self 
+                                              cancelButtonTitle:nil 
+                                              otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 - (BOOL)isReachableInternet {

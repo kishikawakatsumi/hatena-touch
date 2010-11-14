@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController<UIWebViewDelegate> {
+@interface WebViewController : UIViewController<UIWebViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
     UIWebView *web;
     UILabel *titleView;
     UIBarButtonItem *commentButton;
+    UIBarButtonItem *bookmarkButton;
     
     UIAlertView *alert;
+    UIActionSheet *sheet;
+    
+    BOOL useMobilizer;
 }
 
 @property (nonatomic, retain) NSString *pageURL;

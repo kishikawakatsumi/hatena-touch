@@ -41,7 +41,7 @@ static xmlSAXHandler SAXHandlerStruct;
 - (id)initWithURL:(NSURL *)URL {
     if (self = [super init]) {
         identifier = [[URL absoluteString] retain];
-        self.request = [NSURLRequest requestWithURL:URL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
+        self.request = [NSURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
         [self commonInit];
     }
     

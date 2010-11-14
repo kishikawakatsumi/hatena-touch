@@ -32,7 +32,7 @@
     self.view = contentView;
     [contentView release];
     
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 8.0f, 300.0f, 44.0f)];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 4.0f, 300.0f, 44.0f)];
     titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
@@ -40,7 +40,7 @@
     [contentView addSubview:titleLabel];
     [titleLabel release];
     
-    URLLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 52.0f, 300.0f, 40.0f)];
+    URLLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 48.0f, 300.0f, 40.0f)];
     URLLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     URLLabel.backgroundColor = [UIColor clearColor];
     URLLabel.font = [UIFont systemFontOfSize:12.0f];
@@ -50,13 +50,22 @@
     [contentView addSubview:URLLabel];
     [URLLabel release];
     
-    commentField = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, 102.0f, 300.0f, 31.0f)];
-    commentField.borderStyle = UITextBorderStyleBezel;
+    commentField = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, 86.0f, 300.0f, 29.0f)];
+    commentField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    commentField.delegate = self;
+    commentField.borderStyle = UITextBorderStyleLine;
+    commentField.adjustsFontSizeToFitWidth = NO;
+    commentField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    commentField.clearsOnBeginEditing = NO;
+    commentField.enablesReturnKeyAutomatically = YES;
+    commentField.returnKeyType = UIReturnKeyDone;
+    commentField.placeholder = NSLocalizedString(@"Comment", nil);
     [contentView addSubview:commentField];
     [commentField release];
     
-    UIButton *addButton = [UIButton buttonWithType:111];
-    addButton.frame =  CGRectMake(200.0f, 153.0f, 114.0f, 40.0f);
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    addButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    addButton.frame =  CGRectMake(200.0f, 140.0f, 110.0f, 36.0f);
     [addButton setTitle:NSLocalizedString(@"Add", nil) forState:UIControlStateNormal];
     [addButton addTarget:self action:@selector(addBookmark:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:addButton];
@@ -81,7 +90,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    self.title = NSLocalizedString(@"Add MyBookmark", nil);
+    
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
 
     titleLabel.text = self.pageTitle;
     URLLabel.text = self.pageURL;
@@ -89,6 +102,8 @@
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(dismiss:)];
     [self.navigationItem setRightBarButtonItem:closeButton animated:NO];
     [closeButton release];
+    
+    [commentField becomeFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -109,6 +124,8 @@
 
 - (void)addBookmark:(id)sender {
     [[NetworkActivityManager sharedInstance] pushActivity:NSStringFromClass([self class])];
+    
+    [commentField resignFirstResponder];
     
     [UIView beginAnimations:nil context:nil];
     blockView.alpha = 1.0f;
@@ -168,6 +185,13 @@
 - (void)applicationDidEnterBackground:(NSNotification *)note {
     [alert dismissWithClickedButtonIndex:0 animated:NO];
     alert = nil;
+}
+
+#pragma mark -
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

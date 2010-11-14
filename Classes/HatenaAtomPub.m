@@ -51,7 +51,7 @@
 	NSString *password = settings.password;
 	
 	NSURL *webServiceURL = [NSURL URLWithString:URI];
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:webServiceURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:webServiceURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
 	
 	NSString *credentials = [self makeCredentialsWithUsername:username password:password];
 	

@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
-@interface RootViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
+@interface RootViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, ADBannerViewDelegate> {
     UITableView *listView;
+    BOOL iAdIsAvailable;
 }
+
+@property (nonatomic, retain) ADBannerView *bannerView;
 
 @end

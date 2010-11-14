@@ -16,7 +16,6 @@
 #import "FotolifeUploader.h"
 #import "UserSettings.h"
 #import "NetworkActivityManager.h"
-#import "NSData+Base64.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
@@ -37,12 +36,14 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)disableUserInteraction;
 - (void)saveTemporaryDiary;
 - (void)loadTemporaryDiary;
+- (void)insertSyntax:(NSString *)syntax;
 @end
 
 @implementation DiaryViewController
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
     self.editingDiary = nil;
     self.editURI = nil;
     self.titleTextForEdit = nil;
@@ -154,7 +155,9 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -205,6 +208,11 @@ static inline NSString *getName(const char *hax3d, int length) {
         [self loadTemporaryDiary];
         titleField.text = self.editingDiary.titleText;
         bodyTextView.text = self.editingDiary.diaryText;
+        
+        if (self.insertText) {
+            [self insertSyntax:self.insertText];
+            self.insertText = nil;
+        }
     }
     
     clearButton.enabled = [titleField.text length] > 0 || [bodyTextView.text length] > 0;
@@ -229,6 +237,8 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)viewDidUnload {
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    bodyTextView = nil;
     
     blockView = nil;
     indicatorView = nil;
@@ -376,6 +386,10 @@ static inline NSString *getName(const char *hax3d, int length) {
 }
 
 - (void)insertSyntax:(NSString *)syntax {
+    if (!bodyTextView) {
+        self.insertText = syntax;
+        return;
+    }
 	id newText = [NSMutableString stringWithString:bodyTextView.text];
     if ([newText length] == 0) {
         newText = syntax;
@@ -450,7 +464,7 @@ static inline NSString *getName(const char *hax3d, int length) {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *originalImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
     if (pickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
         [picker dismissModalViewControllerAnimated:YES];
@@ -466,7 +480,6 @@ static inline NSString *getName(const char *hax3d, int length) {
         [picker pushViewController:controller animated:YES];
         [controller release];
     }
-
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -678,7 +691,6 @@ static inline NSString *getName(const char *hax3d, int length) {
 }
 
 - (void)diaryUploader:(DiaryUploader *)uploader uploadFailed:(NSError *)error {
-    NSLog(@"%s", __func__);
     [self enableUserInteraction];
     
     [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
@@ -747,6 +759,10 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)applicationDidEnterBackground:(NSNotification *)note {
     [alert dismissWithClickedButtonIndex:0 animated:NO];
     alert = nil;
+    
+    if (self.modalViewController) {
+        [self.modalViewController dismissModalViewControllerAnimated:NO];
+    }
 }
 
 @end

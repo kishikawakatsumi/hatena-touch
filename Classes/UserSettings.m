@@ -4,13 +4,6 @@ static UserSettings *sharedInstance;
 
 @implementation UserSettings
 
-@synthesize version;
-@synthesize userName;
-@synthesize password;
-@synthesize imageSize;
-@synthesize useMobileProxy;
-@synthesize shouldAutoRotation;
-
 + (UserSettings *)sharedInstance {
     if (!sharedInstance) {
         [UserSettings loadSettings];
@@ -21,7 +14,7 @@ static UserSettings *sharedInstance;
 + (void)loadSettings {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentDirectory stringByAppendingPathComponent:@"userSettings.dat"];
+    NSString *path = [documentDirectory stringByAppendingPathComponent:@"UserSettings.dat"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
@@ -52,7 +45,7 @@ static UserSettings *sharedInstance;
 + (void)saveSettings {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentDirectory stringByAppendingPathComponent:@"userSettings.dat"];
+    NSString *path = [documentDirectory stringByAppendingPathComponent:@"UserSettings.dat"];
     
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

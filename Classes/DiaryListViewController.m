@@ -108,7 +108,9 @@ static NSDateFormatter *dateFormatter2;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
     
     self.title = NSLocalizedString(@"BacknumberTitle", nil);
     
@@ -156,17 +158,6 @@ static NSDateFormatter *dateFormatter2;
 #pragma mark -
 
 - (void)loadNextData {
-    if (![[InternetReachability sharedInstance] isReachableInternet]) {
-        alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
-                                           message:NSLocalizedString(@"No internet connection.", nil) 
-                                          delegate:self 
-                                 cancelButtonTitle:nil 
-                                 otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
     [[NetworkActivityManager sharedInstance] pushActivity:NSStringFromClass([self class])];
     dotImageView.hidden = YES;
     [activityIndicator startAnimating];
@@ -333,7 +324,7 @@ static NSDateFormatter *dateFormatter2;
     [alert release];
 }
 
-- (void)parserFinished:(DiaryFeedParser *)parser {
+- (void)parserFinished:(DiaryFeedParser *)p {
     if ([[parser.diaries objectForKey:@"entries"] count] < 20) {
         hasMoreData = NO;
         dotImageView.hidden = NO;
@@ -361,7 +352,7 @@ static NSDateFormatter *dateFormatter2;
     [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
 }
 
-- (void)diaryUploader:(DiaryUploader *)uploader uploadFailed:(NSError *)error {
+- (void)diaryUploader:(DiaryUploader *)diaryUploader uploadFailed:(NSError *)error {
     self.uploader = nil;
     
     [UIView beginAnimations:nil context:nil];

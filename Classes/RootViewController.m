@@ -19,6 +19,7 @@
 @implementation RootViewController
 
 - (void)dealloc {
+    self.bannerView = nil;
     [super dealloc];
 }
 
@@ -47,6 +48,19 @@
                                                                          action:nil];
     [self.navigationItem setBackBarButtonItem:backBarButtonItem];
     [backBarButtonItem release];
+    
+    Class clazz = NSClassFromString(@"ADBannerView");
+    if (clazz) {
+        self.bannerView = [[[ADBannerView alloc] initWithFrame:CGRectZero] autorelease];
+        self.bannerView.delegate = self;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 4.2f) {
+            self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];
+            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+        } else {
+            self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50, ADBannerContentSizeIdentifier480x32, nil];
+            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,8 +75,25 @@
     return settings.shouldAutoRotation;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    Class clazz = NSClassFromString(@"ADBannerView");
+    if (clazz) {
+        if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
+        } else {
+            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+        }
+        listView.tableHeaderView = self.bannerView;
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidUnload {
+    self.bannerView.delegate = nil;
+    self.bannerView = nil;
 }
 
 #pragma mark -
@@ -74,7 +105,7 @@
     NSString *password = settings.password;
     
     BOOL done = NO;
-    if ([username length] != 0 && [password length] != 0) {
+    if ([username length] > 0 && [password length] > 0) {
         done = YES;
     }
     return done;
@@ -174,7 +205,6 @@
 }
 
 #pragma mark -
-#pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger section = indexPath.section;
@@ -214,6 +244,18 @@
         [self.navigationController pushViewController:controller animated:YES];
         [controller release];
     }
+}
+
+#pragma mark -
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner {
+    listView.tableHeaderView = self.bannerView;
+}    
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    listView.tableHeaderView = nil;
+    self.bannerView.delegate = nil;
+    self.bannerView = nil;
 }
 
 @end

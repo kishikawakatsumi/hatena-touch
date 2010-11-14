@@ -94,7 +94,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
     
     self.title = NSLocalizedString(@"MyBookmark", nil);
     
@@ -142,17 +144,6 @@
 #pragma mark -
 
 - (void)loadNextData {
-    if (![[InternetReachability sharedInstance] isReachableInternet]) {
-        alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
-                                           message:NSLocalizedString(@"No internet connection.", nil) 
-                                          delegate:self 
-                                 cancelButtonTitle:nil 
-                                 otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
     [[NetworkActivityManager sharedInstance] pushActivity:NSStringFromClass([self class])];
     dotImageView.hidden = YES;
     [activityIndicator startAnimating];
@@ -328,7 +319,7 @@
     [alert release];
 }
 
-- (void)parserFinished:(MyBookmarkFeedParser *)parser {
+- (void)parserFinished:(MyBookmarkFeedParser *)p {
     if ([[parser.bookmarks objectForKey:@"entries"] count] < 20) {
         hasMoreData = NO;
         dotImageView.hidden = NO;

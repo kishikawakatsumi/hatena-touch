@@ -10,7 +10,7 @@
 
 @class MyBookmarkAPI;
 
-@interface AddBookmarkViewController : UIViewController {
+@interface AddBookmarkViewController : UIViewController<UITextFieldDelegate> {
     UILabel *titleLabel;
     UILabel *URLLabel;
     UITextField *commentField;
