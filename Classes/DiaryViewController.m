@@ -347,7 +347,7 @@ static inline NSString *getName(const char *hax3d, int length) {
     if (self.isDraft) {
 		//下書きを公開
         [diaryUploader publishDraft:diary editURI:self.editURI];
-	} else if (self.isDraft) {
+	} else if (self.editURI) {
 		//既存の記事を編集
         [diaryUploader updateDiary:diary editURI:self.editURI];
 	} else {

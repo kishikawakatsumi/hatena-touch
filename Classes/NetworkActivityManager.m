@@ -36,14 +36,15 @@ static NetworkActivityManager *sharedInstance;
     if ([networkStack count] == 0) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }
-    NSObject *obj = [[NSObject alloc] init];
     NSMutableArray *stack = [networkStack objectForKey:identifier];
     if (!stack) {
         stack = [NSMutableArray array];
         [networkStack setObject:stack forKey:identifier];
+        
+        NSObject *obj = [[NSObject alloc] init];
+        [stack addObject:obj];
+        [obj release];
     }
-    [stack addObject:obj];
-    [obj release];
 }
 
 - (void)popActivity:(id)identifier {

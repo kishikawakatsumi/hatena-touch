@@ -23,6 +23,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NetworkActivityManager sharedInstance] popActivity:NSStringFromClass([self class])];
+    web.delegate = nil;
     self.pageURL = nil;
     self.comments = nil;
     self.connection = nil;
