@@ -18,7 +18,7 @@
         now = [[NSDate date] retain];
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"US"] autorelease]];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:sszzz"];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
         formattedDate = [[dateFormatter stringFromDate:now] retain];
     }
     return self;
