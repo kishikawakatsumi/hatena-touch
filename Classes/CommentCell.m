@@ -18,7 +18,8 @@
 @implementation CommentCellContentView
 
 - (id)initWithFrame:(CGRect)frame cell:(CommentCell *)tableCell {
-    if (self = [super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         cell = tableCell;
         self.opaque = YES;
         self.backgroundColor = cell.backgroundColor;
@@ -58,8 +59,12 @@
 
 @implementation CommentCell
 
+@synthesize comment;
+@synthesize user;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         cellContentView = [[CommentCellContentView alloc] initWithFrame:CGRectInset(self.contentView.bounds, 0.0f, 1.0f) cell:self];
         cellContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         cellContentView.contentMode = UIViewContentModeRedraw;

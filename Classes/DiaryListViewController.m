@@ -34,7 +34,8 @@ static NSDateFormatter *dateFormatter2;
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         data = [[NSMutableArray alloc] initWithCapacity:30];
         page = 1;
         hasMoreData = YES;
@@ -325,7 +326,7 @@ static NSDateFormatter *dateFormatter2;
 }
 
 - (void)parserFinished:(DiaryFeedParser *)p {
-    if ([[parser.diaries objectForKey:@"entries"] count] < 20) {
+    if ([[p.diaries objectForKey:@"entries"] count] < 20) {
         hasMoreData = NO;
         dotImageView.hidden = NO;
         [activityIndicator stopAnimating];
@@ -370,7 +371,7 @@ static NSDateFormatter *dateFormatter2;
         [alert release];
     } else {
         alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppName", nil) 
-                                           message:[NSString stringWithFormat:@"%@\nStatus Code = %d", [NSHTTPURLResponse localizedStringForStatusCode:uploader.statusCode], uploader.statusCode] 
+                                           message:[NSString stringWithFormat:@"%@\nStatus Code = %d", [NSHTTPURLResponse localizedStringForStatusCode:diaryUploader.statusCode], diaryUploader.statusCode] 
                                           delegate:self 
                                  cancelButtonTitle:nil 
                                  otherButtonTitles:NSLocalizedString(@"OK", nil), nil];

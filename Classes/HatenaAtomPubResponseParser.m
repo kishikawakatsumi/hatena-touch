@@ -25,12 +25,16 @@ static xmlSAXHandler SAXHandlerStruct;
 
 @implementation HatenaAtomPubResponseParser
 
+@synthesize delegate;
+@synthesize entry;
+
 - (void)commonInit {
     entry = [[NSMutableDictionary alloc] init];
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         [self commonInit];
     }
     
@@ -56,9 +60,6 @@ static xmlSAXHandler SAXHandlerStruct;
 }
 
 #pragma mark Parsing Function Callback Methods
-
-static const char *kEntryElementName = "entry";
-static NSUInteger kEntryElementNameLength = 6;
 
 static const char *kTitleElementName = "title";
 static NSUInteger kTitleElementNameLength = 6;

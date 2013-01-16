@@ -34,7 +34,8 @@ static UIFont *dateFont;
 }
 
 - (id)initWithFrame:(CGRect)frame cell:(DiaryCell *)tableCell {
-    if (self = [super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         cell = tableCell;
         self.opaque = YES;
         self.backgroundColor = cell.backgroundColor;
@@ -68,8 +69,12 @@ static UIFont *dateFont;
 
 @implementation DiaryCell
 
+@synthesize title;
+@synthesize date;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         cellContentView = [[DiaryCellContentView alloc] initWithFrame:CGRectInset(self.contentView.bounds, 0.0f, 1.0f) cell:self];
         cellContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         cellContentView.contentMode = UIViewContentModeRedraw;

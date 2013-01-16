@@ -25,13 +25,19 @@ static xmlSAXHandler SAXHandlerStruct;
 
 @implementation DiaryFeedParser
 
+@synthesize delegate;
+@synthesize request;
+@synthesize connection;
+@synthesize diaries;
+
 - (void)commonInit {
     diaries = [[NSMutableDictionary alloc] init];
     [diaries setObject:[NSMutableArray array] forKey:@"entries"];
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         [self commonInit];
     }
     

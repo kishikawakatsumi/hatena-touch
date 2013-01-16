@@ -12,8 +12,14 @@
 
 @implementation MyBookmarkAPI
 
+@synthesize delegate;
+@synthesize statusCode;
+@synthesize location;
+@synthesize publishEditURI;
+
 - (id)init {
-	if (self = [super init]) {
+    self = [super init];
+	if (self) {
         [self retain];
 	}
 	return self;

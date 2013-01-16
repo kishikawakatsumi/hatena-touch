@@ -31,14 +31,6 @@ static inline NSString *getName(const char *hax3d, int length) {
     return [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
 }
 
-@interface DiaryViewController(Private)
-- (void)enableUserInteraction;
-- (void)disableUserInteraction;
-- (void)saveTemporaryDiary;
-- (void)loadTemporaryDiary;
-- (void)insertSyntax:(NSString *)syntax;
-@end
-
 @implementation DiaryViewController
 
 - (void)dealloc {
@@ -104,7 +96,7 @@ static inline NSString *getName(const char *hax3d, int length) {
     [titleField release];
     
     toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 372.0f, 320.0f, 44.0f)];
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     toolbar.barStyle = UIBarStyleBlack;
     toolbar.translucent = YES;
     [contentView addSubview:toolbar];
@@ -416,11 +408,7 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)showCameraPicker:(id)sender {
     pickerController = [[UIImagePickerController alloc] init];
     pickerController.delegate = self;
-    if ([pickerController respondsToSelector:@selector(allowsEditing)]) {
-        pickerController.allowsEditing = NO;
-    } else {
-        pickerController.allowsImageEditing = NO;
-    }
+    pickerController.allowsEditing = NO;
 	pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	[self presentModalViewController:pickerController animated:YES];
     [pickerController release];
@@ -429,11 +417,7 @@ static inline NSString *getName(const char *hax3d, int length) {
 - (void)showAlbumPicker:(id)sender {
 	pickerController = [[UIImagePickerController alloc] init];
     pickerController.delegate = self;
-    if ([pickerController respondsToSelector:@selector(allowsEditing)]) {
-        pickerController.allowsEditing = NO;
-    } else {
-        pickerController.allowsImageEditing = NO;
-    }
+    pickerController.allowsEditing = NO;
 	pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	[self presentModalViewController:pickerController animated:YES];
     [pickerController release];
@@ -541,11 +525,9 @@ static inline NSString *getName(const char *hax3d, int length) {
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     NSDictionary *userInfo = [notification userInfo];
-    
     NSValue *aValue = [userInfo objectForKey:UIKeyboardBoundsUserInfoKey];
     
     CGRect keyboardRect = [aValue CGRectValue];
-    
     CGFloat keyboardTop = self.view.frame.size.height - keyboardRect.size.height;
     
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -597,6 +579,8 @@ static inline NSString *getName(const char *hax3d, int length) {
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     [self.navigationItem setRightBarButtonItem:doneButton animated:NO];
     [doneButton release];
+    
+    [bodyTextView setContentOffset:CGPointMake(0.0f, -44.0f) animated:YES];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {

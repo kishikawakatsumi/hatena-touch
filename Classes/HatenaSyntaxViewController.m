@@ -17,7 +17,8 @@
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         hatenaSyntaxList1 = [[NSArray alloc] initWithObjects:
                              [self $:"*～～"],						  
                              [self $:"*t*～～"], 

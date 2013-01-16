@@ -10,6 +10,9 @@
 
 @implementation ImagePreviewViewController
 
+@synthesize delegate;
+@synthesize image;
+
 - (void)dealloc {
     self.image = nil;
     [super dealloc];

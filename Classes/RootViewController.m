@@ -53,13 +53,8 @@
     if (clazz) {
         self.bannerView = [[[ADBannerView alloc] initWithFrame:CGRectZero] autorelease];
         self.bannerView.delegate = self;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 4.2f) {
-            self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];
-            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-        } else {
-            self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50, ADBannerContentSizeIdentifier480x32, nil];
-            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
-        }
+        self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];
+        self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
     }
 }
 
@@ -76,15 +71,12 @@
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    Class clazz = NSClassFromString(@"ADBannerView");
-    if (clazz) {
-        if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
-        } else {
-            self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
-        }
-        listView.tableHeaderView = self.bannerView;
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+    } else {
+        self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
     }
+    listView.tableHeaderView = self.bannerView;
 }
 
 - (void)didReceiveMemoryWarning {

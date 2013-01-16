@@ -4,6 +4,13 @@ static UserSettings *sharedInstance;
 
 @implementation UserSettings
 
+@synthesize version;
+@synthesize userName;
+@synthesize password;
+@synthesize imageSize;
+@synthesize useMobileProxy;
+@synthesize shouldAutoRotation;
+
 + (UserSettings *)sharedInstance {
     if (!sharedInstance) {
         [UserSettings loadSettings];
@@ -58,7 +65,8 @@ static UserSettings *sharedInstance;
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         version = CURRENT_VERSION;
         userName = [[NSString alloc] init];
         password = [[NSString alloc] init];

@@ -14,8 +14,15 @@
 
 @implementation DiaryUploader
 
+@synthesize delegate;
+@synthesize statusCode;
+@synthesize location;
+@synthesize publishDiary;
+@synthesize publishEditURI;
+
 - (id)init {
-	if (self = [super init]) {
+    self = [super init];
+	if (self) {
         [self retain];
 	}
 	return self;

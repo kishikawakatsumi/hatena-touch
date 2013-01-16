@@ -14,7 +14,8 @@
 @implementation HatenaAtomPub
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         now = [[NSDate date] retain];
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"US"] autorelease]];

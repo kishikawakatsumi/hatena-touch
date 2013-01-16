@@ -36,7 +36,8 @@ static UIFont *sampleFont;
 }
 
 - (id)initWithFrame:(CGRect)frame cell:(HatenaSyntaxCell *)tableCell {
-    if (self = [super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         cell = tableCell;
         self.opaque = YES;
         self.backgroundColor = cell.backgroundColor;
@@ -70,8 +71,13 @@ static UIFont *sampleFont;
 
 @implementation HatenaSyntaxCell
 
+@synthesize title;
+@synthesize syntax;
+@synthesize sample;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         cellContentView = [[HatenaSyntaxCellContentView alloc] initWithFrame:CGRectInset(self.contentView.bounds, 0.0f, 1.0f) cell:self];
         cellContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         cellContentView.contentMode = UIViewContentModeRedraw;

@@ -23,7 +23,8 @@
 @implementation MyBookmarkViewController
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         data = [[NSMutableArray alloc] initWithCapacity:30];
         hasMoreData = YES;
     }
@@ -320,7 +321,7 @@
 }
 
 - (void)parserFinished:(MyBookmarkFeedParser *)p {
-    if ([[parser.bookmarks objectForKey:@"entries"] count] < 20) {
+    if ([[p.bookmarks objectForKey:@"entries"] count] < 20) {
         hasMoreData = NO;
         dotImageView.hidden = NO;
         [activityIndicator stopAnimating];

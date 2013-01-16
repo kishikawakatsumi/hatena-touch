@@ -42,8 +42,6 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
     NSInteger statusCode;
     
     BOOL initialized;
-    
-    NSString *insertText;
 }
 
 @property (nonatomic, retain) Diary *editingDiary;

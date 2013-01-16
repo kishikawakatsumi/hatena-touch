@@ -6,7 +6,8 @@
 @synthesize diaryText;
 
 - (id)init {
-	if (self = [super init]) {
+    self = [super init];
+	if (self) {
 		titleText = [[NSString alloc] init];
 		diaryText = [[NSString alloc] init];
 	}
@@ -14,7 +15,8 @@
 }
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text {
-	if (self = [super init]) {
+    self = [super init];
+	if (self) {
 		titleText = [title retain];
 		diaryText = [text retain];
 	}

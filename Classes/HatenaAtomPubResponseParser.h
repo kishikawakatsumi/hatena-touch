@@ -25,7 +25,7 @@ typedef struct _xmlSAX2Attributes xmlSAX2Attributes;
 }
 
 @property (nonatomic, assign) id delegate;
-@property (nonatomic, readonly) NSMutableDictionary *entry;;
+@property (nonatomic, readonly) NSMutableDictionary *entry;
 
 - (void)parseWithData:(NSData *)data;
 

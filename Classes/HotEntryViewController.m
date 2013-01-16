@@ -34,7 +34,8 @@ static NSArray *feedURLs;
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         data = [[NSMutableDictionary alloc] initWithCapacity:[feedURLs count]];
         parsers = [[NSMutableDictionary alloc] initWithCapacity:[feedURLs count]];
     }
@@ -135,6 +136,7 @@ static NSArray *feedURLs;
     [self.navigationItem setBackBarButtonItem:backBarButtonItem];
     [backBarButtonItem release];
     
+    [self cateoryChanged:nil];
     [activityIndicator startAnimating];
 }
 

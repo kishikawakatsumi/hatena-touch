@@ -25,13 +25,19 @@ static xmlSAXHandler SAXHandlerStruct;
 
 @implementation HatenaRSSParser
 
+@synthesize delegate;
+@synthesize identifier;
+@synthesize request;
+@synthesize connection;
+
 - (void)commonInit {
     channel = [[NSMutableDictionary alloc] init];
     [channel setObject:[NSMutableArray array] forKey:@"items"];
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         [self commonInit];
     }
     
@@ -39,7 +45,8 @@ static xmlSAXHandler SAXHandlerStruct;
 }
 
 - (id)initWithURL:(NSURL *)URL {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         identifier = [[URL absoluteString] retain];
         self.request = [NSURLRequest requestWithURL:URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
         [self commonInit];

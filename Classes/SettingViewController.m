@@ -173,6 +173,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             UILabel *description = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 12.0f, 178.0f, 21.0f)];
+            description.backgroundColor = [UIColor clearColor];
             description.adjustsFontSizeToFitWidth = NO;
             description.font = [UIFont boldSystemFontOfSize:15.0f];
             description.text = NSLocalizedString(@"Use Mobilizer", nil);
@@ -180,7 +181,8 @@
             [cell addSubview:description];
             [description release];
             
-            UISwitch *useMobilizer = [[UISwitch alloc] initWithFrame:CGRectMake(206.0f, 9.0f, 94.0f, 27.0f)];
+            UISwitch *useMobilizer = [[UISwitch alloc] initWithFrame:CGRectZero];
+            useMobilizer.frame = CGRectMake(300.0f - useMobilizer.frame.size.width, 9.0f, useMobilizer.frame.size.width, useMobilizer.frame.size.height);
             useMobilizer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             useMobilizer.on = settings.useMobileProxy;
             [useMobilizer addTarget:self action:@selector(useMobilizerChanged:) forControlEvents:UIControlEventValueChanged];
@@ -197,6 +199,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             UILabel *description = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 12.0f, 178.0f, 21.0f)];
+            description.backgroundColor = [UIColor clearColor];
             description.adjustsFontSizeToFitWidth = NO;
             description.font = [UIFont boldSystemFontOfSize:15.0f];
             description.text = NSLocalizedString(@"Auto Rotation", nil);
@@ -204,7 +207,8 @@
             [cell addSubview:description];
             [description release];
             
-            UISwitch *shouldAutoRotation = [[UISwitch alloc] initWithFrame:CGRectMake(206.0f, 9.0f, 94.0f, 27.0f)];
+            UISwitch *shouldAutoRotation = [[UISwitch alloc] initWithFrame:CGRectZero];
+            shouldAutoRotation.frame = CGRectMake(300.0f - shouldAutoRotation.frame.size.width, 9.0f, shouldAutoRotation.frame.size.width, shouldAutoRotation.frame.size.height);
             shouldAutoRotation.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             shouldAutoRotation.on = settings.shouldAutoRotation;
             [shouldAutoRotation addTarget:self action:@selector(autoRotationChanged:) forControlEvents:UIControlEventValueChanged];

@@ -55,7 +55,7 @@
 	MD5([self bytes],[self length],digest);
 	for(i=0;i<MD5_DIGEST_LENGTH;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
 	
-	return [NSString stringWithCString:finaldigest length:2*MD5_DIGEST_LENGTH];
+    return [NSString stringWithCString:finaldigest encoding:NSUTF8StringEncoding];
 }
 
 - (NSData *)md5Hash
@@ -76,7 +76,7 @@
 	SHA1([self bytes],[self length],digest);
 	for(i=0;i<SHA_DIGEST_LENGTH;i++) sprintf(finaldigest+i*2,"%02x",digest[i]);
 	
-	return [NSString stringWithCString:finaldigest length:2*SHA_DIGEST_LENGTH];
+    return [NSString stringWithCString:finaldigest encoding:NSUTF8StringEncoding];
 }
 
 - (NSData *)sha1Hash

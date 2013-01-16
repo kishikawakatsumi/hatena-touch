@@ -25,13 +25,19 @@ static xmlSAXHandler SAXHandlerStruct;
 
 @implementation MyBookmarkFeedParser
 
+@synthesize delegate;
+@synthesize request;
+@synthesize connection;
+@synthesize bookmarks;
+
 - (void)commonInit {
     bookmarks = [[NSMutableDictionary alloc] init];
     [bookmarks setObject:[NSMutableArray array] forKey:@"entries"];
 }
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         [self commonInit];
     }
     
